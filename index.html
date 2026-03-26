@@ -219,11 +219,11 @@
   .btn-gold:hover { background: var(--gold); color: var(--black); }
 
   /* FOOTER */
-  footer { border-top: 1px solid var(--gray2); padding: 3rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+  footer { border-top: 1px solid var(--gray2); padding: 3rem 4rem; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; }
   .footer-logo img { height: 48px; width: auto; object-fit: contain; opacity: .65; }
-  .footer-copy { font-size: .75rem; color: rgba(240,236,228,.2); letter-spacing: .08em; }
+  .footer-copy { text-align: center; font-size: .75rem; color: rgba(240,236,228,.2); letter-spacing: .08em; }
   .footer-copy a { color: var(--gold-dim); text-decoration: none; }
-  .footer-links { display: flex; gap: 2rem; }
+  .footer-links { display: flex; gap: 2rem; justify-content: flex-end; }
   .footer-links a { font-size: .75rem; color: rgba(240,236,228,.25); text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
   .footer-links a:hover { color: rgba(240,236,228,.6); }
 
@@ -377,13 +377,13 @@
   <div class="menu-cta reveal">
     <p style="color:rgba(240,236,228,.4); font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2rem;">Selecciona tu local y descarga la carta completa</p>
     <div class="carta-grid">
-      <a href="carta/quillota.pdf" target="_blank" class="carta-card">
+      <a href="carta/carta_jackstar_marzo.pdf" target="_blank" class="carta-card">
         <div class="carta-icon">🍔</div>
         <div class="carta-name">Carta Quillota</div>
         <div class="carta-sub">Av. Valparaíso 1815</div>
         <div class="carta-btn">Ver Menú →</div>
       </a>
-      <a href="carta/calera.pdf" target="_blank" class="carta-card">
+      <a href="carta/carta_jackstar_marzo.pdf" target="_blank" class="carta-card">
         <div class="carta-icon">🍔</div>
         <div class="carta-name">Carta La Calera</div>
         <div class="carta-sub">Caupolican 984</div>
