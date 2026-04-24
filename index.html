@@ -295,7 +295,7 @@
     background: none; border: none; line-height: 1;
   }
   #carta-close:hover { color: var(--white); }
-  #burger-svg-wrap { min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: visible; }
+  #burger-svg-wrap { min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: visible; }
   #burger-svg { display: block; overflow: visible; }
   .carta-loading-star { font-size: 1.2rem; color: var(--red); margin-top: 2.5rem; }
   .carta-loading-text {
@@ -573,34 +573,34 @@
 <div id="carta-overlay">
   <button id="carta-close" onclick="closeCartaOverlay()">✕</button>
   <div id="burger-svg-wrap">
-    <svg id="burger-svg" viewBox="0 0 200 160" width="140" height="112" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+    <svg id="burger-svg" viewBox="-10 -20 220 200" width="200" height="180" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <!-- PAN TOP -->
       <g class="blayer" data-offset="-40">
-        <path d="M30,57 L30,43 Q30,25 100,25 Q170,25 170,43 L170,57 Z" fill="#C8000A"/>
-        <ellipse cx="76" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(-18 76 36)"/>
-        <ellipse cx="100" cy="29" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)"/>
-        <ellipse cx="124" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(18 124 36)"/>
-        <ellipse cx="89" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(-8 89 48)"/>
-        <ellipse cx="111" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(8 111 48)"/>
+        <path d="M30,32 L30,16 Q30,2 100,2 Q170,2 170,16 L170,32 Z" fill="#C8000A"/>
+        <ellipse cx="76" cy="12" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(-18 76 12)"/>
+        <ellipse cx="100" cy="6"  rx="5" ry="2.5" fill="rgba(255,255,255,0.7)"/>
+        <ellipse cx="124" cy="12" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(18 124 12)"/>
+        <ellipse cx="89"  cy="23" rx="4" ry="2"   fill="rgba(255,255,255,0.5)" transform="rotate(-8 89 23)"/>
+        <ellipse cx="111" cy="23" rx="4" ry="2"   fill="rgba(255,255,255,0.5)" transform="rotate(8 111 23)"/>
       </g>
       <!-- LECHUGA -->
       <g class="blayer" data-offset="-20">
-        <path d="M22,70 C35,57 45,65 58,59 C71,53 82,63 96,58 C110,53 121,63 135,59 C149,55 160,63 178,57 L178,70 Z" fill="#2D5A1B"/>
+        <path d="M22,45 C35,33 45,40 58,35 C71,30 82,39 96,34 C110,29 121,39 135,35 C149,31 160,39 178,33 L178,45 Z" fill="#2D5A1B"/>
       </g>
       <!-- QUESO -->
       <g class="blayer" data-offset="-8">
-        <path d="M20,70 L180,70 L186,75 L180,80 L20,80 L14,75 Z" fill="#F5C842"/>
+        <path d="M20,45 L180,45 L186,50 L180,55 L20,55 L14,50 Z" fill="#F5C842"/>
       </g>
       <!-- CARNE -->
       <g class="blayer" data-offset="8">
-        <rect x="28" y="80" width="144" height="30" rx="6" fill="#6B3A2A"/>
-        <line x1="44" y1="88" x2="156" y2="88" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-        <line x1="44" y1="95" x2="156" y2="95" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-        <line x1="44" y1="102" x2="156" y2="102" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+        <rect x="28" y="55" width="144" height="30" rx="6" fill="#6B3A2A"/>
+        <line x1="44" y1="63" x2="156" y2="63" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+        <line x1="44" y1="70" x2="156" y2="70" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+        <line x1="44" y1="77" x2="156" y2="77" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
       </g>
       <!-- PAN BOTTOM -->
       <g class="blayer" data-offset="28">
-        <path d="M30,112 L170,112 L170,128 Q170,148 100,148 Q30,148 30,128 Z" fill="#C9A84C"/>
+        <path d="M30,87 L170,87 L170,103 Q170,122 100,122 Q30,122 30,103 Z" fill="#C9A84C"/>
       </g>
     </svg>
   </div>
@@ -634,6 +634,14 @@
     const overlay = document.getElementById("carta-overlay");
     const layers = overlay.querySelectorAll(".blayer");
     overlay.style.display = "flex";
+    requestAnimationFrame(() => {
+      layers.forEach((l, i) => {
+        try {
+          const bb = l.getBBox();
+          console.log(`blayer[${i}] offset="${l.dataset.offset}" bbox y=${bb.y.toFixed(1)} h=${bb.height.toFixed(1)} bottom=${(bb.y+bb.height).toFixed(1)}`);
+        } catch(e) { console.log(`blayer[${i}] getBBox error:`, e); }
+      });
+    });
     requestAnimationFrame(() => {
       requestAnimationFrame(() => { overlay.classList.add("visible"); });
     });
