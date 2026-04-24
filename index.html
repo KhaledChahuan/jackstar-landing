@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="photos/favicon.png" />
+<link rel="apple-touch-icon" href="photos/favicon.png" />
 <style>
   :root {
     --black:   #0a0a0a;
@@ -231,6 +233,18 @@
   .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s, transform .7s; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* BURGER DEL MES */
+  .burger-mes-section { background: #0a0a0a; padding: 5rem 4rem; }
+  .burger-mes-card { display: grid; grid-template-columns: 45% 1fr; gap: 3rem; align-items: center; margin-top: 2.5rem; }
+  .burger-mes-img { aspect-ratio: 1/1; overflow: hidden; border-radius: 4px; }
+  .burger-mes-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .burger-mes-badge { display: inline-block; background: var(--red); color: var(--white); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 2px; margin-bottom: 1.2rem; }
+  .burger-mes-name { font-family: "Bebas Neue", sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; margin-bottom: 1rem; }
+  .burger-mes-desc { font-size: .95rem; line-height: 1.7; color: rgba(240,236,228,.55); margin-bottom: 2rem; }
+
+  /* TOP 3 IMG */
+  .top3-card-img { width: calc(100% + 4rem); aspect-ratio: 1/1; object-fit: cover; display: block; margin: -2.5rem -2rem 1.5rem; }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 1.2rem 1.5rem; }
@@ -242,6 +256,8 @@
     .locales-grid { grid-template-columns: 1fr; }
     .top3-grid { grid-template-columns: 1fr; }
     .top3-section { padding: 3rem 1.5rem; }
+    .burger-mes-section { padding: 4rem 1.5rem; }
+    .burger-mes-card { grid-template-columns: 1fr; gap: 1.5rem; }
     .statement { padding: 3rem 1.5rem; }
     .insta-section { padding: 3rem 1.5rem; }
     .insta-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -337,12 +353,29 @@
   </div>
 </section>
 
+<!-- BURGER DEL MES -->
+<section class="burger-mes-section">
+  <div class="section-label reveal">Burger del Mes</div>
+  <div class="burger-mes-card reveal">
+    <div class="burger-mes-img">
+      <img src="photos/burger-1-la-mas-pedida.jpg" alt="Burger del Mes" />
+    </div>
+    <div class="burger-mes-text">
+      <div class="burger-mes-badge">★ ESTE MES</div>
+      <div class="burger-mes-name">La Más<br>Pedida</div>
+      <p class="burger-mes-desc">La favorita sin discusión. Jugosa, con ingredientes seleccionados y ese sabor que hace que siempre vuelvas a pedirla.</p>
+      <a href="#menu" class="btn-ghost">Ver carta completa →</a>
+    </div>
+  </div>
+</section>
+
 <!-- TOP 3 BURGERS -->
 <section class="top3-section">
   <div class="top3-label reveal">Lo más pedido</div>
   <h2 class="top3-title reveal">Top <span style="color:var(--red)">3</span></h2>
   <div class="top3-grid reveal">
     <div class="top3-card">
+      <img src="photos/burger-1-la-mas-pedida.jpg" alt="La más pedida" class="top3-card-img" />
       <div class="top3-rank">1</div>
       <span class="top3-emoji">🍔</span>
       <div class="top3-name">Burger 1</div>
@@ -350,6 +383,7 @@
       <span class="top3-tag">La más pedida ★</span>
     </div>
     <div class="top3-card">
+      <img src="photos/burger-2-imprescindible.jpg" alt="Imprescindible" class="top3-card-img" />
       <div class="top3-rank">2</div>
       <span class="top3-emoji">🔥</span>
       <div class="top3-name">Burger 2</div>
@@ -357,6 +391,7 @@
       <span class="top3-tag">Favorita del local</span>
     </div>
     <div class="top3-card">
+      <img src="photos/burger-3-favorita-del-local.jpg" alt="Favorita del local" class="top3-card-img" />
       <div class="top3-rank">3</div>
       <span class="top3-emoji">⭐</span>
       <div class="top3-name">Burger 3</div>
@@ -403,6 +438,7 @@
   <div class="locales-grid reveal">
     <!-- QUILLOTA -->
     <div class="local-card">
+      <img src="photos/local-quillota.jpeg" alt="Local Quillota" style="aspect-ratio:16/9;object-fit:cover;width:100%;border-radius:4px;margin-bottom:2rem;display:block;" />
       <div class="local-badge"><div class="badge-dot"></div>Abierto · Quillota</div>
       <div class="local-name">Local<br>Quillota</div>
       <div class="local-address">
@@ -420,7 +456,6 @@
           <span class="local-link-icon">🗺</span> Cómo llegar →
         </a>
       </div>
-      <div class="local-img-slot">Foto del local</div>
     </div>
     <!-- LA CALERA -->
     <div class="local-card">
