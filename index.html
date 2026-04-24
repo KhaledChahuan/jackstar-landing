@@ -295,7 +295,8 @@
     background: none; border: none; line-height: 1;
   }
   #carta-close:hover { color: var(--white); }
-  #burger-svg { display: block; }
+  #burger-svg-wrap { min-height: 280px; display: flex; align-items: center; justify-content: center; overflow: visible; }
+  #burger-svg { display: block; overflow: visible; }
   .carta-loading-star { font-size: 1.2rem; color: var(--red); margin-top: 2.5rem; }
   .carta-loading-text {
     font-family: "DM Sans", sans-serif; color: #f0ece4;
@@ -571,36 +572,38 @@
 <!-- CARTA OVERLAY -->
 <div id="carta-overlay">
   <button id="carta-close" onclick="closeCartaOverlay()">✕</button>
-  <svg id="burger-svg" viewBox="0 0 200 180" width="200" height="180" xmlns="http://www.w3.org/2000/svg">
-    <!-- PAN TOP -->
-    <g class="blayer" data-offset="-70">
-      <path d="M30,57 L30,43 Q30,25 100,25 Q170,25 170,43 L170,57 Z" fill="#C8000A"/>
-      <ellipse cx="76" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(-18 76 36)"/>
-      <ellipse cx="100" cy="29" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)"/>
-      <ellipse cx="124" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(18 124 36)"/>
-      <ellipse cx="89" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(-8 89 48)"/>
-      <ellipse cx="111" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(8 111 48)"/>
-    </g>
-    <!-- LECHUGA -->
-    <g class="blayer" data-offset="-35">
-      <path d="M22,70 C35,57 45,65 58,59 C71,53 82,63 96,58 C110,53 121,63 135,59 C149,55 160,63 178,57 L178,70 Z" fill="#2D5A1B"/>
-    </g>
-    <!-- QUESO -->
-    <g class="blayer" data-offset="-15">
-      <path d="M20,70 L180,70 L186,75 L180,80 L20,80 L14,75 Z" fill="#F5C842"/>
-    </g>
-    <!-- CARNE -->
-    <g class="blayer" data-offset="15">
-      <rect x="28" y="80" width="144" height="30" rx="6" fill="#6B3A2A"/>
-      <line x1="44" y1="88" x2="156" y2="88" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-      <line x1="44" y1="95" x2="156" y2="95" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-      <line x1="44" y1="102" x2="156" y2="102" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-    </g>
-    <!-- PAN BOTTOM -->
-    <g class="blayer" data-offset="50">
-      <path d="M30,110 L30,126 Q30,148 100,148 Q170,148 170,126 L170,110 Z" fill="#C9A84C"/>
-    </g>
-  </svg>
+  <div id="burger-svg-wrap">
+    <svg id="burger-svg" viewBox="0 0 200 180" width="140" height="126" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <!-- PAN TOP -->
+      <g class="blayer" data-offset="-40">
+        <path d="M30,57 L30,43 Q30,25 100,25 Q170,25 170,43 L170,57 Z" fill="#C8000A"/>
+        <ellipse cx="76" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(-18 76 36)"/>
+        <ellipse cx="100" cy="29" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)"/>
+        <ellipse cx="124" cy="36" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(18 124 36)"/>
+        <ellipse cx="89" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(-8 89 48)"/>
+        <ellipse cx="111" cy="48" rx="4" ry="2" fill="rgba(255,255,255,0.5)" transform="rotate(8 111 48)"/>
+      </g>
+      <!-- LECHUGA -->
+      <g class="blayer" data-offset="-20">
+        <path d="M22,70 C35,57 45,65 58,59 C71,53 82,63 96,58 C110,53 121,63 135,59 C149,55 160,63 178,57 L178,70 Z" fill="#2D5A1B"/>
+      </g>
+      <!-- QUESO -->
+      <g class="blayer" data-offset="-8">
+        <path d="M20,70 L180,70 L186,75 L180,80 L20,80 L14,75 Z" fill="#F5C842"/>
+      </g>
+      <!-- CARNE -->
+      <g class="blayer" data-offset="8">
+        <rect x="28" y="80" width="144" height="30" rx="6" fill="#6B3A2A"/>
+        <line x1="44" y1="88" x2="156" y2="88" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+        <line x1="44" y1="95" x2="156" y2="95" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+        <line x1="44" y1="102" x2="156" y2="102" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
+      </g>
+      <!-- PAN BOTTOM -->
+      <g class="blayer" data-offset="28">
+        <path d="M30,110 L30,126 Q30,148 100,148 Q170,148 170,126 L170,110 Z" fill="#C9A84C"/>
+      </g>
+    </svg>
+  </div>
   <div class="carta-loading-star">★</div>
   <div class="carta-loading-text">Abriendo la carta</div>
 </div>
