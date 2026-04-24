@@ -188,6 +188,8 @@
   .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
   .badge-dot.soon { background: var(--gray2); border: 1px solid var(--gold); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+  @keyframes pulse-new { 0%,100% { box-shadow: 0 0 0 0 rgba(200,0,10,0.8); } 50% { box-shadow: 0 0 18px 6px rgba(200,0,10,0.1); } }
+  .local-img-new { animation: pulse-new 1.5s ease-in-out infinite; }
   .local-name { font-family: "Bebas Neue", sans-serif; font-size: 3rem; letter-spacing: .05em; line-height: 1; margin-bottom: 1rem; }
   .local-address { font-size: .88rem; color: rgba(240,236,228,.5); line-height: 1.7; margin-bottom: 2rem; }
   .local-address strong { color: rgba(240,236,228,.85); display: block; margin-bottom: .3rem; }
@@ -459,7 +461,8 @@
     </div>
     <!-- LA CALERA -->
     <div class="local-card">
-      <div class="local-badge"><div class="badge-dot soon"></div>Próximamente · La Calera</div>
+      <img src="photos/local-la-calera.jpg" alt="Local La Calera" class="local-img-new" style="aspect-ratio:16/9;object-fit:cover;width:100%;border-radius:4px;margin-bottom:2rem;display:block;" />
+      <div class="local-badge"><div class="badge-dot"></div>● Nuevo · La Calera</div>
       <div class="local-name">Local<br>La Calera</div>
       <div class="local-address">
         <strong>📍 Dirección</strong>
@@ -476,7 +479,6 @@
           <span class="local-link-icon">🗺</span> Cómo llegar →
         </a>
       </div>
-      <div class="local-img-slot" style="opacity:.4;">Foto del local — próximamente</div>
     </div>
   </div>
 </section>
