@@ -280,6 +280,69 @@
     .insta-section { padding: 3rem 1.5rem; }
     .insta-photos { gap: .5rem; }
   }
+
+  /* CARTA OVERLAY */
+  #carta-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0a;
+    flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .3s ease;
+  }
+  #carta-overlay.visible { opacity: 1; }
+  #carta-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    color: #888; font-size: 1.5rem; cursor: pointer;
+    background: none; border: none; line-height: 1;
+  }
+  #carta-close:hover { color: var(--white); }
+  .burger-stack {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .burger-layer {
+    font-size: 2.5rem; line-height: 1;
+    transition: transform .4s ease;
+  }
+  .burger-stack.open .burger-layer:nth-child(1) { animation: layer-top    1.2s ease-out forwards; }
+  .burger-stack.open .burger-layer:nth-child(2) { animation: layer-up2    1.2s ease-out forwards; }
+  .burger-stack.open .burger-layer:nth-child(3) { animation: layer-mid    1.2s ease-out forwards; }
+  .burger-stack.open .burger-layer:nth-child(4) { animation: layer-down2  1.2s ease-out forwards; }
+  .burger-stack.open .burger-layer:nth-child(5) { animation: layer-bottom 1.2s ease-out forwards; }
+  @keyframes layer-top    { 0%{transform:translateY(0)} 60%{transform:translateY(-60px)} 100%{transform:translateY(-60px)} }
+  @keyframes layer-up2    { 0%{transform:translateY(0)} 60%{transform:translateY(-28px)} 100%{transform:translateY(-28px)} }
+  @keyframes layer-mid    { 0%{transform:translateY(0)} 60%{transform:translateY(0)}     100%{transform:translateY(0)} }
+  @keyframes layer-down2  { 0%{transform:translateY(0)} 60%{transform:translateY(28px)}  100%{transform:translateY(28px)} }
+  @keyframes layer-bottom { 0%{transform:translateY(0)} 60%{transform:translateY(60px)}  100%{transform:translateY(60px)} }
+  .carta-loading-star { font-size: 1.2rem; color: var(--red); margin-top: 2.5rem; }
+  .carta-loading-text {
+    font-family: "DM Sans", sans-serif; color: #f0ece4;
+    font-size: .9rem; letter-spacing: .15em; margin-top: .8rem;
+  }
+  .carta-loading-text::after {
+    content: ""; animation: dots 1.2s steps(3, end) infinite;
+  }
+  @keyframes dots {
+    0%   { content: ""; }
+    33%  { content: "."; }
+    66%  { content: ".."; }
+    100% { content: "..."; }
+  }
+
+  @media (max-width: 767px) {
+    nav {
+      height: 80px; padding: 0 1.5rem;
+      justify-content: center;
+      background: transparent;
+      transition: height .3s ease, background .3s ease;
+    }
+    nav .nav-logo img { height: 52px; transition: height .3s ease; }
+    nav.scrolled {
+      height: 52px;
+      justify-content: flex-start;
+      background: #0a0a0a;
+      border-bottom: none;
+    }
+    nav.scrolled .nav-logo img { height: 32px; }
+  }
 </style>
 </head>
 <body>
@@ -414,13 +477,13 @@
   <div class="menu-cta reveal">
     <p style="color:rgba(240,236,228,.4); font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2rem;">Selecciona tu local y descarga la carta completa</p>
     <div class="carta-grid">
-      <a href="carta/carta_jackstar_marzo.pdf" target="_blank" class="carta-card">
+      <a href="carta/carta_jackstar_marzo.pdf" onclick="openCartaAnimada('carta/carta_jackstar_marzo.pdf'); return false;" class="carta-card">
         <div class="carta-icon">🍔</div>
         <div class="carta-name">Carta Quillota</div>
         <div class="carta-sub">Av. Valparaíso 1815</div>
         <div class="carta-btn">Ver Menú →</div>
       </a>
-      <a href="carta/carta_jackstar_marzo.pdf" target="_blank" class="carta-card">
+      <a href="carta/carta_jackstar_marzo.pdf" onclick="openCartaAnimada('carta/carta_jackstar_marzo.pdf'); return false;" class="carta-card">
         <div class="carta-icon">🍔</div>
         <div class="carta-name">Carta La Calera</div>
         <div class="carta-sub">Caupolican 984</div>
@@ -521,6 +584,20 @@
   </div>
 </section>
 
+<!-- CARTA OVERLAY -->
+<div id="carta-overlay">
+  <button id="carta-close" onclick="closeCartaOverlay()">✕</button>
+  <div class="burger-stack" id="burger-stack">
+    <div class="burger-layer">🍞</div>
+    <div class="burger-layer">🥬</div>
+    <div class="burger-layer">🧀</div>
+    <div class="burger-layer">🥩</div>
+    <div class="burger-layer">🍞</div>
+  </div>
+  <div class="carta-loading-star">★</div>
+  <div class="carta-loading-text">Abriendo la carta</div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><img src="photos/LOGO-JACKSTAR.png" alt="Jack Star" /></div>
@@ -542,6 +619,37 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
   reveals.forEach(el => io.observe(el));
+
+  function openCartaAnimada(url) {
+    const overlay = document.getElementById("carta-overlay");
+    const stack = document.getElementById("burger-stack");
+    overlay.style.display = "flex";
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { overlay.classList.add("visible"); });
+    });
+    stack.classList.remove("open");
+    void stack.offsetWidth;
+    stack.classList.add("open");
+    setTimeout(() => {
+      overlay.style.transition = "opacity .4s ease";
+      overlay.classList.remove("visible");
+      overlay.addEventListener("transitionend", function handler() {
+        overlay.removeEventListener("transitionend", handler);
+        overlay.style.display = "none";
+        overlay.style.transition = "opacity .3s ease";
+        window.location.href = url;
+      });
+    }, 2000);
+  }
+
+  function closeCartaOverlay() {
+    const overlay = document.getElementById("carta-overlay");
+    overlay.classList.remove("visible");
+    overlay.addEventListener("transitionend", function handler() {
+      overlay.removeEventListener("transitionend", handler);
+      overlay.style.display = "none";
+    });
+  }
 </script>
 </body>
 </html>
