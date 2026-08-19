@@ -218,7 +218,7 @@
   .club-header { max-width: 700px; margin: 0 auto 3rem; }
   .club-title { font-family: "Bebas Neue", sans-serif; font-size: clamp(3rem, 8vw, 5.5rem); line-height: .95; letter-spacing: .02em; color: var(--white); }
   .club-title .red { color: var(--red); }
-  .club-sub { margin-top: 1.2rem; font-size: 1rem; line-height: 1.7; color: rgba(240,236,228,.6); max-width: 520px; margin-left: auto; margin-right: auto; }
+  .club-sub { margin-top: 1.2rem; font-size: 1rem; line-height: 1.7; color: rgba(240,236,228,.72); max-width: 520px; margin-left: auto; margin-right: auto; }
   .club-badge {
     max-width: 420px; margin: 0 auto 3.5rem; background: var(--gray);
     border: 1px solid var(--red); border-radius: 8px; padding: 2rem 1.5rem;
@@ -227,16 +227,10 @@
   .club-badge-text { font-size: 1rem; color: var(--white); letter-spacing: .05em; margin-top: .3rem; }
   .club-badge-sub { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: .8rem; }
   .club-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; max-width: 1000px; margin: 0 auto 3.5rem; text-align: left; }
-  .club-step-num { font-family: "Bebas Neue", sans-serif; font-size: 3.2rem; color: #2A0000; line-height: 1; margin-bottom: .8rem; }
+  .club-step-num { font-family: "Bebas Neue", sans-serif; font-size: 3.2rem; color: rgba(200,0,10,.4); line-height: 1; margin-bottom: .8rem; }
   .club-step-title { font-family: "Bebas Neue", sans-serif; font-size: 1.5rem; letter-spacing: .04em; color: var(--white); margin-bottom: .6rem; }
-  .club-step-desc { font-size: .88rem; line-height: 1.7; color: rgba(240,236,228,.5); }
-  .club-redeems { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; max-width: 800px; margin: 0 auto 2.5rem; }
-  .club-pill {
-    border: 1px solid #333; color: var(--white); font-size: .82rem;
-    padding: .5rem 1.2rem; border-radius: 999px; transition: background .2s, border-color .2s;
-  }
-  .club-pill:hover { background: var(--red); border-color: var(--red); }
-  .club-trust { font-size: .78rem; color: rgba(240,236,228,.35); letter-spacing: .06em; margin-bottom: 2.5rem; }
+  .club-step-desc { font-size: .88rem; line-height: 1.7; color: rgba(240,236,228,.65); }
+  .club-trust { font-size: .78rem; color: rgba(240,236,228,.5); letter-spacing: .06em; margin-bottom: 2.5rem; }
   .club-ctas { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
 
   @media (max-width: 900px) {
@@ -398,6 +392,53 @@
   <div class="hero-scroll">
     <div class="scroll-line"></div>
     <span>scroll</span>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-icon">★</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- CLUB JACK STAR -->
+<section id="club" class="club-section reveal">
+  <div class="club-header">
+    <div class="section-label">Nuevo · Programa de puntos</div>
+    <h2 class="club-title">COMER JACK<br>AHORA TE DA<br><span class="red">BENEFICIOS</span></h2>
+    <p class="club-sub">Únete al Club Jack Star. Junta puntos en cada visita y canjéalos por lo que quieras. Sin apps, sin vueltas.</p>
+  </div>
+
+  <div class="club-badge">
+    <div class="club-badge-num">20</div>
+    <div class="club-badge-text">puntos de regalo</div>
+    <div class="club-badge-sub">solo por registrarte · oferta limitada</div>
+  </div>
+
+  <div class="club-steps">
+    <div>
+      <div class="club-step-num">01</div>
+      <div class="club-step-title">Regístrate</div>
+      <p class="club-step-desc">Llenas el formulario en 30 segundos y ya tienes 20 puntos en tu cuenta.</p>
+    </div>
+    <div>
+      <div class="club-step-num">02</div>
+      <div class="club-step-title">Suma en cada visita</div>
+      <p class="club-step-desc">Cada $1.000 de compra es 1 punto. En local o delivery. Te llega una notificación con cada movimiento.</p>
+    </div>
+    <div>
+      <div class="club-step-num">03</div>
+      <div class="club-step-title">Canjea gratis</div>
+      <p class="club-step-desc">Cuando llegas al puntaje, pides tu canje en el mesón. Nada más.</p>
+    </div>
+  </div>
+
+  <p class="club-trust">Válido en Quillota y La Calera · Puntos que no vencen · Sin app que descargar</p>
+
+  <div class="club-ctas">
+    <a href="https://puntos.jackstar.cl/#registro" target="_blank" class="btn-primary">Unirme al club →</a>
+    <a href="https://puntos.jackstar.cl" target="_blank" class="btn-gold">Ver cómo funciona →</a>
   </div>
 </section>
 
@@ -590,64 +631,6 @@
   </div>
   <div style="text-align:center; margin-top:2rem;">
     <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" class="btn-ghost">Ver más en Instagram →</a>
-  </div>
-</section>
-
-<!-- DIVIDER -->
-<div class="divider">
-  <div class="divider-line"></div>
-  <div class="divider-icon">★</div>
-  <div class="divider-line"></div>
-</div>
-
-<!-- CLUB JACK STAR -->
-<section id="club" class="club-section reveal">
-  <div class="club-header">
-    <div class="section-label">Nuevo · Programa de puntos</div>
-    <h2 class="club-title">COMER JACK<br>AHORA TE DA<br><span class="red">BENEFICIOS</span></h2>
-    <p class="club-sub">Únete al Club Jack Star. Junta puntos en cada visita y canjéalos por lo que quieras. Sin apps, sin vueltas.</p>
-  </div>
-
-  <div class="club-badge">
-    <div class="club-badge-num">20</div>
-    <div class="club-badge-text">puntos de regalo</div>
-    <div class="club-badge-sub">solo por registrarte · oferta limitada</div>
-  </div>
-
-  <div class="club-steps">
-    <div>
-      <div class="club-step-num">01</div>
-      <div class="club-step-title">Regístrate</div>
-      <p class="club-step-desc">Llenas el formulario en 30 segundos y ya tienes 20 puntos en tu cuenta.</p>
-    </div>
-    <div>
-      <div class="club-step-num">02</div>
-      <div class="club-step-title">Suma en cada visita</div>
-      <p class="club-step-desc">Cada $1.000 de compra es 1 punto. En local o delivery. Te llega una notificación con cada movimiento.</p>
-    </div>
-    <div>
-      <div class="club-step-num">03</div>
-      <div class="club-step-title">Canjea gratis</div>
-      <p class="club-step-desc">Cuando llegas al puntaje, pides tu canje en el mesón. Nada más.</p>
-    </div>
-  </div>
-
-  <div class="club-redeems">
-    <span class="club-pill">Salsa</span>
-    <span class="club-pill">Bebida</span>
-    <span class="club-pill">Papas cheddar</span>
-    <span class="club-pill">Nuggets</span>
-    <span class="club-pill">Mojito</span>
-    <span class="club-pill">Gin Tropical</span>
-    <span class="club-pill">Burger + Papas</span>
-    <span class="club-pill">Combo del Culto</span>
-  </div>
-
-  <p class="club-trust">Válido en Quillota y La Calera · Puntos que no vencen · Sin app que descargar</p>
-
-  <div class="club-ctas">
-    <a href="https://puntos.jackstar.cl/#registro" target="_blank" class="btn-primary">Unirme al club →</a>
-    <a href="https://puntos.jackstar.cl" target="_blank" class="btn-gold">Ver cómo funciona →</a>
   </div>
 </section>
 
