@@ -95,28 +95,17 @@
     position: relative; z-index: 2;
     opacity: 0; animation: fadeUp .8s 1s forwards;
   }
+  /* Los tres botones de la botonera comparten forma y color; el icono es lo que los distingue. */
   .btn-primary {
     background: var(--red); color: var(--white);
     padding: .9rem 2.4rem; font-size: .82rem; letter-spacing: .18em;
     text-transform: uppercase; text-decoration: none; border-radius: 999px;
-    transition: background .2s, transform .15s; display: inline-block;
-  }
-  .btn-primary:hover { background: #e6000c; transform: translateY(-2px); }
-  .btn-ghost {
-    color: rgba(240,236,228,.6); font-size: .82rem; letter-spacing: .18em; text-transform: uppercase;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,168,76,.35); padding-bottom: 2px;
-    border-radius: 999px; transition: color .2s, border-color .2s;
-  }
-  .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
-  /* Dorado sólido: al lado del rojo y del verde, el enlace subrayado no se leía como botón. */
-  .btn-gold-fill {
-    background: var(--gold); color: var(--black);
-    font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; text-decoration: none;
-    padding: .9rem 2.4rem; border: none; border-radius: 999px; display: inline-block;
+    display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+    border: none; cursor: pointer; font-family: inherit; line-height: 1;
     transition: background .2s, transform .15s;
   }
-  .btn-gold-fill:hover { background: #e0bc5c; transform: translateY(-2px); }
+  .btn-primary:hover { background: #e6000c; transform: translateY(-2px); }
+  .btn-ico { width: 17px; height: 17px; flex-shrink: 0; }
   .hero-scroll {
     position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: .5rem;
@@ -469,14 +458,9 @@
     Smash Burgers, Pulled Pork y Mechadas de otro nivel. Ingredientes de verdad, sabores sin compromiso — en Quillota y La Calera.
   </p>
   <div class="hero-actions">
-    <a href="#menu" class="btn-primary">Ver el Menú</a>
-<button type="button" class="btn-wsp" onclick="abrirPedido()">
-      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      <span class="wsp-label">Pedir ahora</span>
-      <span class="wsp-fill" aria-hidden="true"></span>
-      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-    <a href="#locales" class="btn-gold-fill">Encuéntranos →</a>
+    <a href="#menu" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver el Menú</span></a>
+    <button type="button" class="btn-primary" onclick="abrirPedido()"><svg class="btn-ico" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M26.576 5.363c-2.69-2.69-6.406-4.354-10.511-4.354-8.209 0-14.865 6.655-14.865 14.865 0 2.732.737 5.291 2.022 7.491l-.038-.07-2.109 7.702 7.879-2.067c2.051 1.139 4.498 1.809 7.102 1.809h.006c8.209-.003 14.862-6.659 14.862-14.868 0-4.103-1.662-7.817-4.349-10.507zM16.062 28.228h-.005c-2.319 0-4.489-.64-6.342-1.753l.056.031-.451-.267-4.675 1.227 1.247-4.559-.294-.467c-1.185-1.862-1.889-4.131-1.889-6.565 0-6.822 5.531-12.353 12.353-12.353s12.353 5.531 12.353 12.353c0 6.822-5.53 12.353-12.353 12.353zM22.838 18.977c-.371-.186-2.197-1.083-2.537-1.208-.341-.124-.589-.185-.837.187-.246.371-.958 1.207-1.175 1.455-.216.249-.434.279-.805.094-1.15-.466-2.138-1.087-2.997-1.852l.01.009c-.799-.74-1.484-1.587-2.037-2.521l-.028-.052c-.216-.371-.023-.572.162-.757.167-.166.372-.434.557-.65.146-.179.271-.384.366-.604l.006-.017c.043-.087.068-.188.068-.296 0-.131-.037-.253-.101-.357l.002.003c-.094-.186-.836-2.014-1.145-2.758-.302-.724-.609-.625-.836-.637-.216-.01-.464-.012-.712-.012-.395.01-.746.188-.988.463l-.001.002c-.802.761-1.3 1.834-1.3 3.023 0 .026 0 .053.001.079l-.001-.004c.131 1.467.681 2.784 1.527 3.857l-.012-.015c1.604 2.379 3.742 4.282 6.251 5.564l.94.043c.548.248 1.25.513 1.968.74l.149.041c.442.14.951.221 1.479.221.303 0 .601-.027.889-.078l-.031.004c1.069-.223 1.956-.868 2.497-1.749l.009-.017c.165-.366.261-.793.261-1.242 0-.185-.016-.366-.047-.542l.003.019c-.092-.155-.34-.247-.712-.434z"/></svg><span>Pedir ahora</span></button>
+    <a href="#locales" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c3.5-3.6 7-6.824 7-10.8C19 6.224 15.866 3 12 3S5 6.224 5 10.2C5 14.176 8.5 17.4 12 21Z"/></svg><span>Encuéntranos</span></a>
   </div>
   <div class="hero-scroll">
     <div class="scroll-line"></div>
@@ -580,7 +564,7 @@
       <div class="burger-mes-name">Trufada</div>
       <p class="burger-mes-desc">Para los hamburgueseros más exigentes. Pan de papa artesanal, blend Angus argentino, queso mantecoso, champiñones salteados a la mantequilla, lechuga fresca y nuestra salsa secreta de trufas negras. El dúo de champiñones y salsa de trufas la convierte en una experiencia única — intensa, sofisticada y difícil de olvidar.</p>
       <div class="burger-mes-acciones" style="display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center;">
-        <a href="#menu" class="btn-ghost">Ver carta completa →</a>
+        <a href="#menu" class="btn-gold">Ver carta completa →</a>
         <button type="button" class="btn-wsp" onclick="abrirPedido()">
       <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       <span class="wsp-label">Pedir ahora</span>
@@ -747,7 +731,7 @@
     </a>
   </div>
   <div style="text-align:center; margin-top:2rem;">
-    <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" class="btn-ghost">Ver más en Instagram →</a>
+    <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" class="btn-gold">Ver más en Instagram →</a>
   </div>
 </section>
 
@@ -757,14 +741,9 @@
   <h2 class="section-title reveal">Ven a<br><span style="color:var(--red)">probar</span></h2>
   <p class="reveal">Sin reservas, sin complicaciones. Llega, pide y descubre por qué Jack Star es diferente.</p>
   <div class="cta-buttons reveal">
-    <a href="#locales" class="btn-primary">Ver dónde estamos</a>
-<button type="button" class="btn-wsp" onclick="abrirPedido()">
-      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      <span class="wsp-label">Pedir ahora</span>
-      <span class="wsp-fill" aria-hidden="true"></span>
-      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-    <a href="#locales" class="btn-gold">Escríbenos →</a>
+    <a href="#locales" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c3.5-3.6 7-6.824 7-10.8C19 6.224 15.866 3 12 3S5 6.224 5 10.2C5 14.176 8.5 17.4 12 21Z"/></svg><span>Ver dónde estamos</span></a>
+    <button type="button" class="btn-primary" onclick="abrirPedido()"><svg class="btn-ico" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M26.576 5.363c-2.69-2.69-6.406-4.354-10.511-4.354-8.209 0-14.865 6.655-14.865 14.865 0 2.732.737 5.291 2.022 7.491l-.038-.07-2.109 7.702 7.879-2.067c2.051 1.139 4.498 1.809 7.102 1.809h.006c8.209-.003 14.862-6.659 14.862-14.868 0-4.103-1.662-7.817-4.349-10.507zM16.062 28.228h-.005c-2.319 0-4.489-.64-6.342-1.753l.056.031-.451-.267-4.675 1.227 1.247-4.559-.294-.467c-1.185-1.862-1.889-4.131-1.889-6.565 0-6.822 5.531-12.353 12.353-12.353s12.353 5.531 12.353 12.353c0 6.822-5.53 12.353-12.353 12.353zM22.838 18.977c-.371-.186-2.197-1.083-2.537-1.208-.341-.124-.589-.185-.837.187-.246.371-.958 1.207-1.175 1.455-.216.249-.434.279-.805.094-1.15-.466-2.138-1.087-2.997-1.852l.01.009c-.799-.74-1.484-1.587-2.037-2.521l-.028-.052c-.216-.371-.023-.572.162-.757.167-.166.372-.434.557-.65.146-.179.271-.384.366-.604l.006-.017c.043-.087.068-.188.068-.296 0-.131-.037-.253-.101-.357l.002.003c-.094-.186-.836-2.014-1.145-2.758-.302-.724-.609-.625-.836-.637-.216-.01-.464-.012-.712-.012-.395.01-.746.188-.988.463l-.001.002c-.802.761-1.3 1.834-1.3 3.023 0 .026 0 .053.001.079l-.001-.004c.131 1.467.681 2.784 1.527 3.857l-.012-.015c1.604 2.379 3.742 4.282 6.251 5.564l.94.043c.548.248 1.25.513 1.968.74l.149.041c.442.14.951.221 1.479.221.303 0 .601-.027.889-.078l-.031.004c1.069-.223 1.956-.868 2.497-1.749l.009-.017c.165-.366.261-.793.261-1.242 0-.185-.016-.366-.047-.542l.003.019c-.092-.155-.34-.247-.712-.434z"/></svg><span>Pedir ahora</span></button>
+    <a href="#menu" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver la carta</span></a>
   </div>
 </section>
 
