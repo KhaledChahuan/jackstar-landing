@@ -213,9 +213,9 @@
   .insta-handle { display: flex; align-items: center; gap: .5rem; font-size: .88rem; color: var(--gold); text-decoration: none; letter-spacing: .1em; transition: opacity .2s; }
   .insta-handle:hover { opacity: .7; }
   .insta-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .insta-photo-card { aspect-ratio: 1/1; background: var(--gray2); border-radius: 4px; overflow: hidden; position: relative; transition: transform .3s; }
+  .insta-photo-card { aspect-ratio: 4/5; background: var(--gray2); border-radius: 4px; overflow: hidden; position: relative; display: block; transition: transform .3s; }
   .insta-photo-card:hover { transform: scale(1.02); }
-  .insta-photo-card img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .insta-photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .insta-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; opacity: .3; aspect-ratio: 1/1; }
 
   /* CLUB JACK STAR */
@@ -736,15 +736,15 @@
     </a>
   </div>
   <div class="insta-photos">
-    <div class="insta-photo-card">
-      <div class="insta-photo-placeholder">📸</div>
-    </div>
-    <div class="insta-photo-card">
-      <div class="insta-photo-placeholder">📸</div>
-    </div>
-    <div class="insta-photo-card">
-      <div class="insta-photo-placeholder">📸</div>
-    </div>
+    <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" rel="noopener" class="insta-photo-card">
+      <img src="photos/insta-1-burgers.jpg" alt="Tres burgers Jack Star con papas fritas" loading="lazy" style="object-position: center 60%;" />
+    </a>
+    <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" rel="noopener" class="insta-photo-card">
+      <img src="photos/insta-2-tropical.jpg" alt="Trago tropical servido en el local" loading="lazy" style="object-position: center 55%;" />
+    </a>
+    <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" rel="noopener" class="insta-photo-card">
+      <img src="photos/insta-3-tragos.jpg" alt="Mojito, trago de naranja y dos burgers" loading="lazy" style="object-position: center 60%;" />
+    </a>
   </div>
   <div style="text-align:center; margin-top:2rem;">
     <a href="https://www.instagram.com/jackstar.burgerbar" target="_blank" class="btn-ghost">Ver más en Instagram →</a>
