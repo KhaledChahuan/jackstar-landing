@@ -103,12 +103,20 @@
   }
   .btn-primary:hover { background: #e6000c; transform: translateY(-2px); }
   .btn-ghost {
-    color: rgba(240,236,228,.6); font-size: .82rem; letter-spacing: .18em;
-    text-transform: uppercase; text-decoration: none;
+    color: rgba(240,236,228,.6); font-size: .82rem; letter-spacing: .18em; text-transform: uppercase;
+    text-decoration: none;
     border-bottom: 1px solid rgba(201,168,76,.35); padding-bottom: 2px;
     border-radius: 999px; transition: color .2s, border-color .2s;
   }
   .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+  /* Dorado sólido: al lado del rojo y del verde, el enlace subrayado no se leía como botón. */
+  .btn-gold-fill {
+    background: var(--gold); color: var(--black);
+    font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; text-decoration: none;
+    padding: .9rem 2.4rem; border: none; border-radius: 999px; display: inline-block;
+    transition: background .2s, transform .15s;
+  }
+  .btn-gold-fill:hover { background: #e0bc5c; transform: translateY(-2px); }
   .hero-scroll {
     position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: .5rem;
@@ -300,7 +308,8 @@
   }
   @media (max-width: 600px) {
     .carta-grid { grid-template-columns: 1fr; }
-    .hero-actions { flex-direction: column; align-items: flex-start; }
+    .hero-actions, .cta-buttons { flex-direction: column; align-items: stretch; }
+    .hero-actions > *, .cta-buttons > * { width: 100%; text-align: center; justify-content: center; padding-left: 1.5rem; padding-right: 1.5rem; }
     .hero-title { font-size: clamp(3.8rem, 16vw, 6rem); line-height: .88; }
     .hero { padding: 7rem 1.5rem 4rem; }
     .hero-sub { font-size: .9rem; max-width: 100%; }
@@ -308,6 +317,80 @@
     .insta-section { padding: 3rem 1.5rem; }
     .insta-photos { gap: .5rem; }
   }
+
+  /* PEDIR POR WHATSAPP */
+  .btn-wsp {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    overflow: hidden; border: none; background: #25d366; color: #fff;
+    font-family: "DM Sans", sans-serif; font-weight: 400;
+    padding: .9rem 2.4rem; font-size: .82rem; letter-spacing: .18em; text-transform: uppercase;
+    border-radius: 999px; cursor: pointer; text-decoration: none;
+    transition: border-radius .6s cubic-bezier(.23,1,.32,1), box-shadow .3s ease, transform .15s ease;
+  }
+  .btn-wsp:hover { border-radius: 12px; box-shadow: 0 12px 34px -12px rgba(37,211,102,.75); }
+  .btn-wsp:active { transform: scale(.95); }
+  /* Las dos flechas se cruzan: la izquierda entra, la derecha sale. */
+  .wsp-arrow {
+    position: absolute; width: 16px; height: 16px; stroke: #fff; fill: none; z-index: 9;
+    transition: all .8s cubic-bezier(.34,1.56,.64,1);
+  }
+  .wsp-arrow-left  { left: -25%; }
+  .wsp-arrow-right { right: 1.1rem; }
+  .btn-wsp:hover .wsp-arrow-left  { left: 1.1rem; }
+  .btn-wsp:hover .wsp-arrow-right { right: -25%; }
+  .wsp-label { position: relative; z-index: 1; transform: translateX(-.7rem); transition: transform .8s ease; }
+  .btn-wsp:hover .wsp-label { transform: translateX(.7rem); }
+  /* Círculo que se expande desde el centro y rellena el botón con el verde oscuro de WhatsApp. */
+  .wsp-fill {
+    position: absolute; top: 50%; left: 50%; width: 16px; height: 16px;
+    transform: translate(-50%,-50%); border-radius: 50%; background: #128c7e; opacity: 0;
+    transition: all .8s cubic-bezier(.19,1,.22,1);
+  }
+  .btn-wsp:hover .wsp-fill { width: 380px; height: 380px; opacity: 1; }
+  .btn-wsp-local { display: flex; width: 100%; margin-top: 1.5rem; }
+
+  /* Modal de elección de local. Dos locales: mandar el pedido al chat equivocado es peor que
+     preguntar, así que "Pedir ahora" abre esto y no un WhatsApp directo. */
+  #pedido-overlay {
+    position: fixed; inset: 0; z-index: 10000; display: none;
+    align-items: center; justify-content: center; padding: 1.5rem;
+    opacity: 0; transition: opacity .25s ease;
+  }
+  #pedido-overlay.visible { opacity: 1; }
+  .pedido-backdrop { position: absolute; inset: 0; background: rgba(5,5,5,.8); backdrop-filter: blur(4px); }
+  .pedido-modal {
+    position: relative; width: 100%; max-width: 460px;
+    background: var(--gray); border: 1px solid rgba(240,236,228,.1);
+    border-radius: 10px; padding: 2.5rem 2rem 2rem; text-align: left;
+    transform: translateY(12px) scale(.97); transition: transform .3s cubic-bezier(.23,1,.32,1);
+  }
+  #pedido-overlay.visible .pedido-modal { transform: translateY(0) scale(1); }
+  .pedido-close {
+    position: absolute; top: .9rem; right: 1rem;
+    background: none; border: none; color: rgba(240,236,228,.45);
+    font-size: 1.1rem; line-height: 1; cursor: pointer; transition: color .2s;
+  }
+  .pedido-close:hover { color: var(--white); }
+  .pedido-title { font-family: "Bebas Neue", sans-serif; font-size: 2.4rem; line-height: 1; letter-spacing: .02em; }
+  .pedido-sub { color: rgba(240,236,228,.5); font-size: .9rem; margin-top: .6rem; }
+  .pedido-opciones { display: grid; gap: .8rem; margin-top: 1.8rem; }
+  .pedido-opcion {
+    display: flex; align-items: center; gap: 1rem; text-decoration: none;
+    padding: 1rem 1.1rem; border-radius: 8px;
+    border: 1px solid rgba(37,211,102,.3); background: rgba(37,211,102,.08);
+    transition: border-color .2s, background .2s;
+  }
+  .pedido-opcion:hover { border-color: #25d366; background: rgba(37,211,102,.16); }
+  .pedido-opcion-icono {
+    flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%;
+    background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  .pedido-opcion-texto { flex: 1; min-width: 0; }
+  .pedido-opcion-nombre { display: block; font-family: "Bebas Neue", sans-serif; font-size: 1.35rem; letter-spacing: .04em; color: var(--white); }
+  .pedido-opcion-dir { display: block; font-size: .8rem; color: rgba(240,236,228,.5); }
+  .pedido-opcion-flecha { color: #25d366; font-size: 1rem; transition: transform .2s; }
+  .pedido-opcion:hover .pedido-opcion-flecha { transform: translateX(4px); }
+
 
   /* CARTA OVERLAY */
   #carta-overlay {
@@ -387,7 +470,13 @@
   </p>
   <div class="hero-actions">
     <a href="#menu" class="btn-primary">Ver el Menú</a>
-    <a href="#locales" class="btn-ghost">Encuéntranos →</a>
+<button type="button" class="btn-wsp" onclick="abrirPedido()">
+      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="wsp-label">Pedir ahora</span>
+      <span class="wsp-fill" aria-hidden="true"></span>
+      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <a href="#locales" class="btn-gold-fill">Encuéntranos →</a>
   </div>
   <div class="hero-scroll">
     <div class="scroll-line"></div>
@@ -490,7 +579,15 @@
       <div class="burger-mes-badge">★ ESTE MES</div>
       <div class="burger-mes-name">Trufada</div>
       <p class="burger-mes-desc">Para los hamburgueseros más exigentes. Pan de papa artesanal, blend Angus argentino, queso mantecoso, champiñones salteados a la mantequilla, lechuga fresca y nuestra salsa secreta de trufas negras. El dúo de champiñones y salsa de trufas la convierte en una experiencia única — intensa, sofisticada y difícil de olvidar.</p>
-      <a href="#menu" class="btn-ghost">Ver carta completa →</a>
+      <div class="burger-mes-acciones" style="display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center;">
+        <a href="#menu" class="btn-ghost">Ver carta completa →</a>
+        <button type="button" class="btn-wsp" onclick="abrirPedido()">
+      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="wsp-label">Pedir ahora</span>
+      <span class="wsp-fill" aria-hidden="true"></span>
+      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+      </div>
     </div>
   </div>
 </section>
@@ -551,6 +648,14 @@
         <div class="carta-btn">Ver Menú →</div>
       </a>
     </div>
+    <div style="margin-top:2.5rem;">
+      <button type="button" class="btn-wsp" onclick="abrirPedido()">
+      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="wsp-label">Pedir por WhatsApp</span>
+      <span class="wsp-fill" aria-hidden="true"></span>
+      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    </div>
   </div>
 </section>
 
@@ -582,6 +687,12 @@
           <span class="local-link-icon">🗺</span> Cómo llegar →
         </a>
       </div>
+      <a href="https://wa.me/56977765787?text=Hola%21%20quiero%20hacer%20un%20pedido%21%F0%9F%8D%94" target="_blank" rel="noopener" class="btn-wsp btn-wsp-local">
+          <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span class="wsp-label">Pedir ahora</span>
+          <span class="wsp-fill" aria-hidden="true"></span>
+          <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
     </div>
     <!-- LA CALERA -->
     <div class="local-card">
@@ -603,6 +714,12 @@
           <span class="local-link-icon">🗺</span> Cómo llegar →
         </a>
       </div>
+      <a href="https://wa.me/56921613810?text=Hola%21%20quiero%20hacer%20un%20pedido%21%F0%9F%8D%94" target="_blank" rel="noopener" class="btn-wsp btn-wsp-local">
+          <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <span class="wsp-label">Pedir ahora</span>
+          <span class="wsp-fill" aria-hidden="true"></span>
+          <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
     </div>
   </div>
 </section>
@@ -641,9 +758,44 @@
   <p class="reveal">Sin reservas, sin complicaciones. Llega, pide y descubre por qué Jack Star es diferente.</p>
   <div class="cta-buttons reveal">
     <a href="#locales" class="btn-primary">Ver dónde estamos</a>
+<button type="button" class="btn-wsp" onclick="abrirPedido()">
+      <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="wsp-label">Pedir ahora</span>
+      <span class="wsp-fill" aria-hidden="true"></span>
+      <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
     <a href="#locales" class="btn-gold">Escríbenos →</a>
   </div>
 </section>
+
+<!-- ELEGIR LOCAL PARA PEDIR -->
+<div id="pedido-overlay" role="dialog" aria-modal="true" aria-labelledby="pedido-title">
+  <div class="pedido-backdrop" onclick="cerrarPedido()"></div>
+  <div class="pedido-modal">
+    <button class="pedido-close" onclick="cerrarPedido()" aria-label="Cerrar">✕</button>
+    <div class="section-label" style="margin-bottom:.6rem;">Pedidos por WhatsApp</div>
+    <h3 class="pedido-title" id="pedido-title">¿Dónde deseas pedir?</h3>
+    <p class="pedido-sub">Elige tu local y te abrimos el chat con el pedido ya escrito.</p>
+    <div class="pedido-opciones">
+      <a href="https://wa.me/56977765787?text=Hola%21%20quiero%20hacer%20un%20pedido%21%F0%9F%8D%94" target="_blank" rel="noopener" class="pedido-opcion" onclick="cerrarPedido()">
+        <span class="pedido-opcion-icono">💬</span>
+        <span class="pedido-opcion-texto">
+          <span class="pedido-opcion-nombre">Sucursal Quillota</span>
+          <span class="pedido-opcion-dir">Av. Valparaíso 1815, Quillota</span>
+        </span>
+        <span class="pedido-opcion-flecha">→</span>
+      </a>
+      <a href="https://wa.me/56921613810?text=Hola%21%20quiero%20hacer%20un%20pedido%21%F0%9F%8D%94" target="_blank" rel="noopener" class="pedido-opcion" onclick="cerrarPedido()">
+        <span class="pedido-opcion-icono">💬</span>
+        <span class="pedido-opcion-texto">
+          <span class="pedido-opcion-nombre">Sucursal La Calera</span>
+          <span class="pedido-opcion-dir">Caupolican 984, La Calera</span>
+        </span>
+        <span class="pedido-opcion-flecha">→</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- CARTA OVERLAY -->
 <div id="carta-overlay">
@@ -752,6 +904,25 @@
       });
     });
   }
+
+  /* El overlay de pedido se abre desde los botones verdes de toda la página. */
+  const pedidoOverlay = document.getElementById("pedido-overlay");
+
+  function abrirPedido() {
+    pedidoOverlay.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => pedidoOverlay.classList.add("visible"));
+  }
+
+  function cerrarPedido() {
+    pedidoOverlay.classList.remove("visible");
+    document.body.style.overflow = "";
+    setTimeout(() => { pedidoOverlay.style.display = "none"; }, 250);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && pedidoOverlay.classList.contains("visible")) cerrarPedido();
+  });
 </script>
 </body>
 </html>
