@@ -1057,10 +1057,24 @@ document.addEventListener("click", e => {
   else if (e.target.closest(".lightbox")) lb.classList.remove("open");
 });
 
+/* visitas: se cuentan en admin.jackstar.cl › Analíticas. Una por local y pestaña. */
+const SUCURSAL = { quillota: "quillota", calera: "la-calera" };
+function contarVisita(l) {
+  try {
+    const k = "visita-carta-" + l;
+    if (sessionStorage.getItem(k)) return;
+    sessionStorage.setItem(k, "1");
+  } catch {}
+  try {
+    navigator.sendBeacon("https://admin.jackstar.cl/api/carta/visita", JSON.stringify({ local: SUCURSAL[l] }));
+  } catch {}
+}
+
 /* selector de local */
 function setLocal(l, { animate = true } = {}) {
   if (l === local) return;
   local = l;
+  contarVisita(l);
   const seg = document.querySelector(".seg");
   seg.dataset.local = l;
   seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.local === l));
