@@ -158,22 +158,109 @@
 
   /* MENU */
   .menu-section { background: #0d0d0d; }
-  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
 
-  /* CARTA CARDS */
-  .carta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 640px; margin: 0 auto; }
+  /* CARTA */
+  .carta-section { position: relative; overflow: hidden; }
+  .carta-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 60% at 78% 45%, rgba(200,0,10,.16), transparent 70%); pointer-events: none; }
+  .carta-layout { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .carta-title { position: relative; display: inline-block; }
+  .carta-word { position: relative; display: inline-block; color: var(--red); }
+  .carta-underline { position: absolute; left: 0; right: 0; bottom: -.12em; width: 100%; height: .22em; overflow: visible; }
+  .carta-underline path { fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 210; stroke-dashoffset: 210; transition: stroke-dashoffset .9s .45s cubic-bezier(.6,0,.2,1); }
+  .carta-title.visible .carta-underline path { stroke-dashoffset: 0; }
+  .carta-star { display: inline-block; color: var(--gold); font-size: .45em; vertical-align: .9em; margin-left: .15em; transform: scale(0) rotate(-180deg); transition: transform .6s 1.1s cubic-bezier(.2,1.6,.4,1); }
+  .carta-title.visible .carta-star { transform: none; animation: twinkle 3s 2s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100% { transform: none; } 50% { transform: scale(1.25) rotate(20deg); } }
+  .carta-lead { color: rgba(240,236,228,.6); font-size: .95rem; line-height: 1.6; max-width: 440px; margin: 1.4rem 0 2rem; }
+
+  .carta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 520px; }
   .carta-card {
-    background: var(--gray); border: 1px solid var(--gray2); border-radius: 4px;
-    padding: 2.5rem 2rem; text-align: center; text-decoration: none; color: var(--white);
-    transition: border-color .3s, transform .3s;
-    display: flex; flex-direction: column; align-items: center; gap: .8rem;
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--gray); border: 1px solid var(--gray2); border-radius: 18px;
+    padding: 1.6rem 1.2rem 1.4rem; text-decoration: none; color: var(--white);
+    display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
   }
-  .carta-card:hover { border-color: var(--red); transform: translateY(-4px); }
-  .carta-icon { font-size: 2.5rem; }
-  .carta-name { font-family: "Bebas Neue", sans-serif; font-size: 1.5rem; letter-spacing: .05em; }
-  .carta-sub { font-size: .8rem; color: rgba(240,236,228,.45); letter-spacing: .1em; }
-  .carta-btn { margin-top: .5rem; font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; color: var(--red); border-radius: 999px; }
-  .menu-cta { text-align: center; margin-top: 0; }
+  .carta-card.reveal { transition: opacity .7s, transform .7s, border-color .3s; }
+  .carta-card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--red); clip-path: circle(0% at 85% 100%); transition: clip-path .55s cubic-bezier(.6,0,.2,1); }
+  .carta-card:hover::before, .carta-card:focus-visible::before { clip-path: circle(150% at 85% 100%); }
+  .carta-card:hover, .carta-card:focus-visible { border-color: var(--red); outline: none; }
+  .carta-name { font-family: "Bebas Neue", sans-serif; font-size: 2rem; line-height: 1; letter-spacing: .03em; margin-top: .4rem; }
+  .carta-sub { display: flex; align-items: center; gap: .3rem; font-size: .78rem; color: rgba(240,236,228,.55); }
+  .carta-card:hover .carta-sub { color: rgba(240,236,228,.85); }
+  .cc-pin { width: 14px; height: 14px; fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+  .carta-card:hover .cc-pin { stroke: var(--white); animation: pinHop .6s ease; }
+  @keyframes pinHop { 40% { transform: translateY(-4px); } }
+  .carta-btn { margin-top: .7rem; font-size: .72rem; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: .4rem; }
+  .carta-card:hover .carta-btn { color: var(--white); }
+  .cc-arrow { display: inline-block; transition: transform .3s; }
+  .carta-card:hover .cc-arrow { transform: translateX(5px); }
+
+  /* burger que se arma al aparecer la tarjeta */
+  .cc-burger { width: 74px; height: 62px; overflow: visible; }
+  .cc-burger path, .cc-burger rect { fill: none; stroke: var(--red); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s; }
+  .cc-seeds ellipse { fill: var(--red); transition: fill .3s; }
+  .carta-card:hover .cc-burger path, .carta-card:hover .cc-burger rect { stroke: var(--white); }
+  .carta-card:hover .cc-seeds ellipse { fill: var(--white); }
+  .cc-burger .cc-ray { stroke: var(--gold); stroke-width: 3.5; stroke-dasharray: 14; stroke-dashoffset: 14; }
+  .cc-top, .cc-lettuce, .cc-patty, .cc-bottom { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; }
+  .carta-card.visible .cc-bottom  { animation: ccDrop .45s .25s cubic-bezier(.3,1.6,.5,1) forwards; }
+  .carta-card.visible .cc-patty   { animation: ccDrop .45s .4s cubic-bezier(.3,1.6,.5,1) forwards; }
+  .carta-card.visible .cc-lettuce { animation: ccDrop .45s .55s cubic-bezier(.3,1.6,.5,1) forwards; }
+  .carta-card.visible .cc-top     { animation: ccTop .6s .7s cubic-bezier(.3,1.5,.5,1) forwards; }
+  .carta-card.visible .cc-ray     { animation: ccRay .7s 1.2s ease-out forwards; }
+  .carta-card:hover .cc-top { animation: ccHop .5s ease forwards; opacity: 1; }
+  .carta-card:hover .cc-ray { animation: ccRay .6s .15s ease-out; }
+  @keyframes ccDrop { 0% { opacity: 1; transform: translateY(-70px); } 100% { opacity: 1; transform: none; } }
+  @keyframes ccTop { 0% { opacity: 1; transform: translateY(-90px) rotate(-10deg); } 70% { transform: scaleY(.8) scaleX(1.06); } 100% { opacity: 1; transform: none; } }
+  @keyframes ccHop { 0% { transform: none; } 40% { transform: translateY(-12px) rotate(-6deg); } 75% { transform: scaleY(.88); } 100% { transform: none; } }
+  @keyframes ccRay { 0% { stroke-dashoffset: 14; opacity: 1; } 50% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: -14; opacity: 0; } }
+
+  .carta-pdf { margin-top: 1.4rem; font-size: .78rem; color: rgba(240,236,228,.4); }
+  .carta-pdf a { color: rgba(240,236,228,.7); }
+  .carta-pdf a:hover { color: var(--gold); }
+  .carta-cta { text-align: center; margin-top: 3rem; }
+
+  /* teléfono con la carta corriendo */
+  .carta-phone { position: relative; display: flex; justify-content: center; }
+  .phone {
+    position: relative; z-index: 1; width: 250px; aspect-ratio: 9 / 19; border-radius: 38px; padding: 10px;
+    background: #1a1a1a; border: 2px solid #2e2e2e; box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 2px #000;
+    animation: phoneFloat 6s ease-in-out infinite;
+  }
+  @keyframes phoneFloat { 0%,100% { transform: translateY(0) rotate(4deg); } 50% { transform: translateY(-14px) rotate(2deg); } }
+  .phone-notch { position: absolute; top: 16px; left: 50%; width: 70px; height: 18px; margin-left: -35px; background: #000; border-radius: 99px; z-index: 3; }
+  .phone-screen { position: relative; height: 100%; border-radius: 30px; overflow: hidden; background: var(--black); }
+  .phone-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: 40px 14px 8px; background: #0a0a0a; font-family: "Bebas Neue", sans-serif; font-size: 1rem; border-bottom: 1px solid rgba(200,0,10,.4); }
+  .phone-bar b { color: var(--gold); font-weight: 400; font-size: .7em; }
+  .phone-bar span { margin-left: auto; font-family: "DM Sans", sans-serif; font-size: .55rem; font-weight: 500; background: var(--red); padding: .2rem .55rem; border-radius: 99px; }
+  .phone-feed { padding-top: 72px; animation: feed 22s linear infinite; }
+  @keyframes feed { to { transform: translateY(-50%); } }
+  .pf-sec { padding: 14px 14px 18px; }
+  .pf-red { background: var(--red); } .pf-black { background: #141414; } .pf-gold { background: #f2b705; color: var(--black); }
+  .pf-title { font-family: "Bebas Neue", sans-serif; font-size: 1.6rem; line-height: 1; margin-bottom: 6px; }
+  .pf-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 7px 0; border-bottom: 1px dashed rgba(240,236,228,.25); font-size: .62rem; font-weight: 500; }
+  .pf-gold .pf-row { border-color: rgba(10,10,10,.25); }
+  .pf-row b { border: 1.5px solid currentColor; border-radius: 99px; padding: 2px 7px; font-size: .55rem; }
+  .phone-dock { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; border-radius: 99px; background: var(--white); color: var(--black); font-family: "Bebas Neue", sans-serif; font-size: .85rem; box-shadow: 0 6px 16px rgba(0,0,0,.4); }
+  .phone-dock i { width: 20px; height: 20px; border-radius: 50%; background: var(--red); }
+  .phone-glow { position: absolute; width: 260px; height: 260px; top: 50%; left: 50%; margin: -130px 0 0 -130px; border-radius: 50%; background: radial-gradient(circle, rgba(200,0,10,.35), transparent 70%); filter: blur(10px); animation: glow 6s ease-in-out infinite; }
+  @keyframes glow { 50% { transform: scale(1.15); opacity: .7; } }
+
+  @media (max-width: 900px) {
+    .carta-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .carta-phone { order: -1; }
+    .phone { width: 190px; border-radius: 30px; }
+    .phone-screen { border-radius: 23px; }
+  }
+  @media (max-width: 420px) {
+    .carta-grid { gap: .7rem; }
+    .carta-card { padding: 1.3rem 1rem 1.1rem; }
+    .carta-name { font-size: 1.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .phone, .phone-feed, .phone-glow, .carta-star { animation: none !important; }
+    .cc-top, .cc-lettuce, .cc-patty, .cc-bottom { opacity: 1; animation: none !important; }
+  }
 
   /* LOCALES */
   .locales-intro { max-width: 520px; margin-bottom: 2.5rem; }
@@ -296,7 +383,6 @@
     .hero-img-placeholder { font-size: 10rem; opacity: .03; }
   }
   @media (max-width: 600px) {
-    .carta-grid { grid-template-columns: 1fr; }
     .hero-actions, .cta-buttons { flex-direction: column; align-items: stretch; }
     .hero-actions > *, .cta-buttons > * { width: 100%; text-align: center; justify-content: center; padding-left: 1.5rem; padding-right: 1.5rem; }
     .hero-title { font-size: clamp(3.8rem, 16vw, 6rem); line-height: .88; }
@@ -381,37 +467,6 @@
   .pedido-opcion:hover .pedido-opcion-flecha { transform: translateX(4px); }
 
 
-  /* CARTA OVERLAY */
-  #carta-overlay {
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: #0a0a0a; overflow: visible;
-    flex-direction: column; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity .3s ease;
-  }
-  #carta-overlay.visible { opacity: 1; }
-  #carta-close {
-    position: absolute; top: 1.5rem; right: 1.5rem;
-    color: #888; font-size: 1.5rem; cursor: pointer;
-    background: none; border: none; line-height: 1;
-  }
-  #carta-close:hover { color: var(--white); }
-  #burger-svg-wrap { min-height: 340px; padding-top: 60px; display: flex; align-items: center; justify-content: center; overflow: visible; }
-  #burger-svg { display: block; overflow: visible; }
-  .carta-loading-star { font-size: 1.2rem; color: var(--red); margin-top: 2.5rem; }
-  .carta-loading-text {
-    font-family: "DM Sans", sans-serif; color: #f0ece4;
-    font-size: .9rem; letter-spacing: .15em; margin-top: .8rem;
-  }
-  .carta-loading-text::after {
-    content: ""; animation: dots 1.2s steps(3, end) infinite;
-  }
-  @keyframes dots {
-    0%   { content: ""; }
-    33%  { content: "."; }
-    66%  { content: ".."; }
-    100% { content: "..."; }
-  }
-
   @media (max-width: 767px) {
     nav {
       height: 80px; padding: 0 1.5rem;
@@ -437,10 +492,10 @@
   <a href="#" class="nav-logo"><img src="photos/LOGO-JACKSTAR.png" alt="Jack Star" /></a>
   <ul class="nav-links">
     <li><a href="#nosotros">Nosotros</a></li>
-    <li><a href="#menu">Menú</a></li>
+    <li><a href="#carta">Carta</a></li>
     <li><a href="#locales">Locales</a></li>
     <li><a href="#club">Club</a></li>
-    <li><a href="#menu" class="nav-cta">Ver Carta</a></li>
+    <li><a href="#carta" class="nav-cta">Ver la carta</a></li>
   </ul>
 </nav>
 
@@ -458,7 +513,7 @@
     Smash Burgers, Pulled Pork y Mechadas de otro nivel. Ingredientes de verdad, sabores sin compromiso — en Quillota y La Calera.
   </p>
   <div class="hero-actions">
-    <a href="#menu" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver el Menú</span></a>
+    <a href="#carta" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver la carta</span></a>
     <button type="button" class="btn-primary" onclick="abrirPedido()"><svg class="btn-ico" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M26.576 5.363c-2.69-2.69-6.406-4.354-10.511-4.354-8.209 0-14.865 6.655-14.865 14.865 0 2.732.737 5.291 2.022 7.491l-.038-.07-2.109 7.702 7.879-2.067c2.051 1.139 4.498 1.809 7.102 1.809h.006c8.209-.003 14.862-6.659 14.862-14.868 0-4.103-1.662-7.817-4.349-10.507zM16.062 28.228h-.005c-2.319 0-4.489-.64-6.342-1.753l.056.031-.451-.267-4.675 1.227 1.247-4.559-.294-.467c-1.185-1.862-1.889-4.131-1.889-6.565 0-6.822 5.531-12.353 12.353-12.353s12.353 5.531 12.353 12.353c0 6.822-5.53 12.353-12.353 12.353zM22.838 18.977c-.371-.186-2.197-1.083-2.537-1.208-.341-.124-.589-.185-.837.187-.246.371-.958 1.207-1.175 1.455-.216.249-.434.279-.805.094-1.15-.466-2.138-1.087-2.997-1.852l.01.009c-.799-.74-1.484-1.587-2.037-2.521l-.028-.052c-.216-.371-.023-.572.162-.757.167-.166.372-.434.557-.65.146-.179.271-.384.366-.604l.006-.017c.043-.087.068-.188.068-.296 0-.131-.037-.253-.101-.357l.002.003c-.094-.186-.836-2.014-1.145-2.758-.302-.724-.609-.625-.836-.637-.216-.01-.464-.012-.712-.012-.395.01-.746.188-.988.463l-.001.002c-.802.761-1.3 1.834-1.3 3.023 0 .026 0 .053.001.079l-.001-.004c.131 1.467.681 2.784 1.527 3.857l-.012-.015c1.604 2.379 3.742 4.282 6.251 5.564l.94.043c.548.248 1.25.513 1.968.74l.149.041c.442.14.951.221 1.479.221.303 0 .601-.027.889-.078l-.031.004c1.069-.223 1.956-.868 2.497-1.749l.009-.017c.165-.366.261-.793.261-1.242 0-.185-.016-.366-.047-.542l.003.019c-.092-.155-.34-.247-.712-.434z"/></svg><span>Pedir ahora</span></button>
     <a href="#locales" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c3.5-3.6 7-6.824 7-10.8C19 6.224 15.866 3 12 3S5 6.224 5 10.2C5 14.176 8.5 17.4 12 21Z"/></svg><span>Encuéntranos</span></a>
   </div>
@@ -564,7 +619,7 @@
       <div class="burger-mes-name">Trufada</div>
       <p class="burger-mes-desc">Para los hamburgueseros más exigentes. Pan de papa artesanal, blend Angus argentino, queso mantecoso, champiñones salteados a la mantequilla, lechuga fresca y nuestra salsa secreta de trufas negras. El dúo de champiñones y salsa de trufas la convierte en una experiencia única — intensa, sofisticada y difícil de olvidar.</p>
       <div class="burger-mes-acciones" style="display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center;">
-        <a href="#menu" class="btn-gold">Ver carta completa →</a>
+        <a href="#carta" class="btn-gold">Ver la carta →</a>
         <button type="button" class="btn-wsp" onclick="abrirPedido()">
       <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       <span class="wsp-label">Pedir ahora</span>
@@ -608,38 +663,60 @@
   </div>
 </section>
 
-<!-- MENÚ -->
-<section id="menu" class="menu-section">
-  <div class="menu-header">
-    <div>
-      <div class="section-label reveal">Descarga nuestra carta</div>
-      <h2 class="section-title reveal">El Menú</h2>
+<!-- CARTA -->
+<section id="carta" class="menu-section carta-section">
+  <div class="carta-layout">
+    <div class="carta-copy">
+      <div class="section-label reveal">Nuestra carta digital</div>
+      <h2 class="section-title reveal carta-title">La <span class="carta-word">Carta<svg class="carta-underline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14 C50 4 110 4 196 10" /></svg></span><span class="carta-star" aria-hidden="true">★</span></h2>
+      <p class="carta-lead reveal">Burgers, chicken, sandwich, papas, cervezas y tragos. Elige tu local y mírala completa desde el celular.</p>
+      <div class="carta-grid">
+        <a href="carta/#quillota" class="carta-card reveal" style="transition-delay:0s">
+          <svg class="cc-burger" viewBox="0 0 120 100" aria-hidden="true">
+            <path class="cc-ray" d="M60 6 V-6 M34 14 l-7 -9 M86 14 l7 -9" />
+            <g class="cc-top"><path d="M20 46 C20 22 38 12 60 12 C82 12 100 22 100 46 Z" /><g class="cc-seeds"><ellipse cx="46" cy="26" rx="3" ry="1.8"/><ellipse cx="60" cy="21" rx="3" ry="1.8"/><ellipse cx="74" cy="26" rx="3" ry="1.8"/><ellipse cx="53" cy="35" rx="3" ry="1.8"/><ellipse cx="67" cy="35" rx="3" ry="1.8"/></g></g>
+            <path class="cc-lettuce" d="M16 56 q6 -6 11 0 t11 0 t11 0 t11 0 t11 0 t11 0 t11 0 t11 0" />
+            <rect class="cc-patty" x="16" y="62" width="88" height="11" rx="5.5" />
+            <path class="cc-bottom" d="M20 79 H100 V82 Q100 92 90 92 H30 Q20 92 20 82 Z" />
+          </svg>
+          <div class="carta-name">Quillota</div>
+          <div class="carta-sub"><svg class="cc-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Av. Valparaíso 1815</div>
+          <div class="carta-btn">Ver la carta <span class="cc-arrow">→</span></div>
+        </a>
+        <a href="carta/#calera" class="carta-card reveal" style="transition-delay:0.12s">
+          <svg class="cc-burger" viewBox="0 0 120 100" aria-hidden="true">
+            <path class="cc-ray" d="M60 6 V-6 M34 14 l-7 -9 M86 14 l7 -9" />
+            <g class="cc-top"><path d="M20 46 C20 22 38 12 60 12 C82 12 100 22 100 46 Z" /><g class="cc-seeds"><ellipse cx="46" cy="26" rx="3" ry="1.8"/><ellipse cx="60" cy="21" rx="3" ry="1.8"/><ellipse cx="74" cy="26" rx="3" ry="1.8"/><ellipse cx="53" cy="35" rx="3" ry="1.8"/><ellipse cx="67" cy="35" rx="3" ry="1.8"/></g></g>
+            <path class="cc-lettuce" d="M16 56 q6 -6 11 0 t11 0 t11 0 t11 0 t11 0 t11 0 t11 0 t11 0" />
+            <rect class="cc-patty" x="16" y="62" width="88" height="11" rx="5.5" />
+            <path class="cc-bottom" d="M20 79 H100 V82 Q100 92 90 92 H30 Q20 92 20 82 Z" />
+          </svg>
+          <div class="carta-name">La Calera</div>
+          <div class="carta-sub"><svg class="cc-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Caupolicán 984</div>
+          <div class="carta-btn">Ver la carta <span class="cc-arrow">→</span></div>
+        </a>
+      </div>
+      <p class="carta-pdf reveal">¿Prefieres el PDF? <a href="carta/carta_jackstar_quillota.pdf" target="_blank" rel="noopener">Quillota</a> · <a href="carta/carta_jackstar_calera.pdf" target="_blank" rel="noopener">La Calera</a></p>
+    </div>
+    <div class="carta-phone reveal" aria-hidden="true">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-bar">JACK<b>★</b>STAR<span>Quillota</span></div>
+          <div class="phone-feed"><div class="pf-sec pf-red"><div class="pf-title">Burgers</div><div class="pf-row"><span>Red Pepper</span><b>$10.900</b></div><div class="pf-row"><span>Burger Cheese</span><b>$7.900</b></div><div class="pf-row"><span>Blue Burger</span><b>$9.500</b></div><div class="pf-row"><span>Super Jack Star</span><b>$15.900</b></div></div><div class="pf-sec pf-black"><div class="pf-title">Chicken</div><div class="pf-row"><span>Chicken Cheese</span><b>$7.900</b></div><div class="pf-row"><span>Chicken Gringa</span><b>$9.500</b></div><div class="pf-row"><span>Chicken Teriyaki</span><b>$8.900</b></div></div><div class="pf-sec pf-red"><div class="pf-title">Sandwich</div><div class="pf-row"><span>Mechada Luco</span><b>$7.900</b></div><div class="pf-row"><span>Pulled Pork Jack</span><b>$9.900</b></div></div><div class="pf-sec pf-gold"><div class="pf-title">Papas</div><div class="pf-row"><span>Papas Jack</span><b>$9.900</b></div><div class="pf-row"><span>Papas Cheddar</span><b>$6.500</b></div><div class="pf-row"><span>Papas Camaronas</span><b>$10.900</b></div></div><div class="pf-sec pf-black"><div class="pf-title">Tragos</div><div class="pf-row"><span>Mojito tradicional</span><b>$5.500</b></div><div class="pf-row"><span>Gin Tropical</span><b>$6.900</b></div></div><div class="pf-sec pf-red"><div class="pf-title">Burgers</div><div class="pf-row"><span>Red Pepper</span><b>$10.900</b></div><div class="pf-row"><span>Burger Cheese</span><b>$7.900</b></div><div class="pf-row"><span>Blue Burger</span><b>$9.500</b></div><div class="pf-row"><span>Super Jack Star</span><b>$15.900</b></div></div><div class="pf-sec pf-black"><div class="pf-title">Chicken</div><div class="pf-row"><span>Chicken Cheese</span><b>$7.900</b></div><div class="pf-row"><span>Chicken Gringa</span><b>$9.500</b></div><div class="pf-row"><span>Chicken Teriyaki</span><b>$8.900</b></div></div><div class="pf-sec pf-red"><div class="pf-title">Sandwich</div><div class="pf-row"><span>Mechada Luco</span><b>$7.900</b></div><div class="pf-row"><span>Pulled Pork Jack</span><b>$9.900</b></div></div><div class="pf-sec pf-gold"><div class="pf-title">Papas</div><div class="pf-row"><span>Papas Jack</span><b>$9.900</b></div><div class="pf-row"><span>Papas Cheddar</span><b>$6.500</b></div><div class="pf-row"><span>Papas Camaronas</span><b>$10.900</b></div></div><div class="pf-sec pf-black"><div class="pf-title">Tragos</div><div class="pf-row"><span>Mojito tradicional</span><b>$5.500</b></div><div class="pf-row"><span>Gin Tropical</span><b>$6.900</b></div></div></div>
+          <div class="phone-dock"><i></i>Burgers</div>
+        </div>
+      </div>
+      <div class="phone-glow"></div>
     </div>
   </div>
-  <div class="menu-cta reveal">
-    <p style="color:rgba(240,236,228,.4); font-size:.85rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2rem;">Selecciona tu local y descarga la carta completa</p>
-    <div class="carta-grid">
-      <a href="carta/carta_jackstar_quillota.pdf" onclick="openCartaAnimada('carta/carta_jackstar_quillota.pdf'); return false;" class="carta-card">
-        <div class="carta-icon">🍔</div>
-        <div class="carta-name">Carta Quillota</div>
-        <div class="carta-sub">Av. Valparaíso 1815</div>
-        <div class="carta-btn">Ver Menú →</div>
-      </a>
-      <a href="carta/carta_jackstar_calera.pdf" onclick="openCartaAnimada('carta/carta_jackstar_calera.pdf'); return false;" class="carta-card">
-        <div class="carta-icon">🍔</div>
-        <div class="carta-name">Carta La Calera</div>
-        <div class="carta-sub">Caupolican 984</div>
-        <div class="carta-btn">Ver Menú →</div>
-      </a>
-    </div>
-    <div style="margin-top:2.5rem;">
+  <div class="carta-cta reveal">
       <button type="button" class="btn-wsp" onclick="abrirPedido()">
       <svg class="wsp-arrow wsp-arrow-left" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       <span class="wsp-label">Pedir por WhatsApp</span>
       <span class="wsp-fill" aria-hidden="true"></span>
       <svg class="wsp-arrow wsp-arrow-right" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
-    </div>
   </div>
 </section>
 
@@ -743,7 +820,7 @@
   <div class="cta-buttons reveal">
     <a href="#locales" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c3.5-3.6 7-6.824 7-10.8C19 6.224 15.866 3 12 3S5 6.224 5 10.2C5 14.176 8.5 17.4 12 21Z"/></svg><span>Ver dónde estamos</span></a>
     <button type="button" class="btn-primary" onclick="abrirPedido()"><svg class="btn-ico" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M26.576 5.363c-2.69-2.69-6.406-4.354-10.511-4.354-8.209 0-14.865 6.655-14.865 14.865 0 2.732.737 5.291 2.022 7.491l-.038-.07-2.109 7.702 7.879-2.067c2.051 1.139 4.498 1.809 7.102 1.809h.006c8.209-.003 14.862-6.659 14.862-14.868 0-4.103-1.662-7.817-4.349-10.507zM16.062 28.228h-.005c-2.319 0-4.489-.64-6.342-1.753l.056.031-.451-.267-4.675 1.227 1.247-4.559-.294-.467c-1.185-1.862-1.889-4.131-1.889-6.565 0-6.822 5.531-12.353 12.353-12.353s12.353 5.531 12.353 12.353c0 6.822-5.53 12.353-12.353 12.353zM22.838 18.977c-.371-.186-2.197-1.083-2.537-1.208-.341-.124-.589-.185-.837.187-.246.371-.958 1.207-1.175 1.455-.216.249-.434.279-.805.094-1.15-.466-2.138-1.087-2.997-1.852l.01.009c-.799-.74-1.484-1.587-2.037-2.521l-.028-.052c-.216-.371-.023-.572.162-.757.167-.166.372-.434.557-.65.146-.179.271-.384.366-.604l.006-.017c.043-.087.068-.188.068-.296 0-.131-.037-.253-.101-.357l.002.003c-.094-.186-.836-2.014-1.145-2.758-.302-.724-.609-.625-.836-.637-.216-.01-.464-.012-.712-.012-.395.01-.746.188-.988.463l-.001.002c-.802.761-1.3 1.834-1.3 3.023 0 .026 0 .053.001.079l-.001-.004c.131 1.467.681 2.784 1.527 3.857l-.012-.015c1.604 2.379 3.742 4.282 6.251 5.564l.94.043c.548.248 1.25.513 1.968.74l.149.041c.442.14.951.221 1.479.221.303 0 .601-.027.889-.078l-.031.004c1.069-.223 1.956-.868 2.497-1.749l.009-.017c.165-.366.261-.793.261-1.242 0-.185-.016-.366-.047-.542l.003.019c-.092-.155-.34-.247-.712-.434z"/></svg><span>Pedir ahora</span></button>
-    <a href="#menu" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver la carta</span></a>
+    <a href="#carta" class="btn-primary"><svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V6.2C4 5.08 4 4.52 4.218 4.092c.192-.376.498-.682.874-.874C5.52 3 6.08 3 7.2 3h9.6c1.12 0 1.68 0 2.108.218.376.192.682.498.874.874C20 4.52 20 5.08 20 6.2V17H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h14M9 7h6M9 11h6m4 6v4"/></svg><span>Ver la carta</span></a>
   </div>
 </section>
 
@@ -776,52 +853,13 @@
   </div>
 </div>
 
-<!-- CARTA OVERLAY -->
-<div id="carta-overlay">
-  <button id="carta-close" onclick="closeCartaOverlay()">✕</button>
-  <div id="burger-svg-wrap">
-    <svg id="burger-svg" viewBox="0 -60 200 210" width="200" height="210" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <!-- PAN TOP -->
-      <g class="blayer" data-offset="-40">
-        <path d="M30,32 L30,16 Q30,2 100,2 Q170,2 170,16 L170,32 Z" fill="#C8000A"/>
-        <ellipse cx="76" cy="12" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(-18 76 12)"/>
-        <ellipse cx="100" cy="6"  rx="5" ry="2.5" fill="rgba(255,255,255,0.7)"/>
-        <ellipse cx="124" cy="12" rx="5" ry="2.5" fill="rgba(255,255,255,0.7)" transform="rotate(18 124 12)"/>
-        <ellipse cx="89"  cy="23" rx="4" ry="2"   fill="rgba(255,255,255,0.5)" transform="rotate(-8 89 23)"/>
-        <ellipse cx="111" cy="23" rx="4" ry="2"   fill="rgba(255,255,255,0.5)" transform="rotate(8 111 23)"/>
-      </g>
-      <!-- LECHUGA -->
-      <g class="blayer" data-offset="-20">
-        <path d="M22,45 C35,33 45,40 58,35 C71,30 82,39 96,34 C110,29 121,39 135,35 C149,31 160,39 178,33 L178,45 Z" fill="#2D5A1B"/>
-      </g>
-      <!-- QUESO -->
-      <g class="blayer" data-offset="-8">
-        <path d="M20,45 L180,45 L186,50 L180,55 L20,55 L14,50 Z" fill="#F5C842"/>
-      </g>
-      <!-- CARNE -->
-      <g class="blayer" data-offset="8">
-        <rect x="28" y="55" width="144" height="30" rx="6" fill="#6B3A2A"/>
-        <line x1="44" y1="63" x2="156" y2="63" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-        <line x1="44" y1="70" x2="156" y2="70" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-        <line x1="44" y1="77" x2="156" y2="77" stroke="#3d2215" stroke-width="1.5" opacity="0.55"/>
-      </g>
-      <!-- PAN BOTTOM -->
-      <g class="blayer" data-offset="28">
-        <path d="M30,87 L170,87 L170,103 Q170,122 100,122 Q30,122 30,103 Z" fill="#C9A84C"/>
-      </g>
-    </svg>
-  </div>
-  <div class="carta-loading-star">★</div>
-  <div class="carta-loading-text">Abriendo la carta</div>
-</div>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><img src="photos/LOGO-JACKSTAR.png" alt="Jack Star" /></div>
   <div class="footer-copy">© 2026 Jack Star · Todos los derechos reservados · by <a href="https://stratlab.cl" target="_blank">stratlab.cl</a></div>
   <div class="footer-links">
     <a href="#inicio">Inicio</a>
-    <a href="#menu">Menú</a>
+    <a href="#carta">Carta</a>
     <a href="#locales">Locales</a>
   </div>
 </footer>
@@ -836,53 +874,6 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
   reveals.forEach(el => io.observe(el));
-
-  function openCartaAnimada(url) {
-    const overlay = document.getElementById("carta-overlay");
-    const layers = overlay.querySelectorAll(".blayer");
-    overlay.style.display = "flex";
-    requestAnimationFrame(() => {
-      layers.forEach((l, i) => {
-        try {
-          const bb = l.getBBox();
-          console.log(`blayer[${i}] offset="${l.dataset.offset}" bbox y=${bb.y.toFixed(1)} h=${bb.height.toFixed(1)} bottom=${(bb.y+bb.height).toFixed(1)}`);
-        } catch(e) { console.log(`blayer[${i}] getBBox error:`, e); }
-      });
-    });
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => { overlay.classList.add("visible"); });
-    });
-    layers.forEach(l => { l.style.transition = "none"; l.style.transform = "translateY(0)"; });
-    void overlay.getBoundingClientRect();
-    layers.forEach((l, i) => {
-      const offset = l.getAttribute("data-offset");
-      l.style.transition = `transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${i * 0.05}s`;
-      l.style.transform = `translateY(${offset}px)`;
-    });
-    setTimeout(() => {
-      overlay.style.transition = "opacity .4s ease";
-      overlay.classList.remove("visible");
-      overlay.addEventListener("transitionend", function handler() {
-        overlay.removeEventListener("transitionend", handler);
-        overlay.style.display = "none";
-        overlay.style.transition = "opacity .3s ease";
-        window.location.href = url;
-      });
-    }, 2000);
-  }
-
-  function closeCartaOverlay() {
-    const overlay = document.getElementById("carta-overlay");
-    overlay.classList.remove("visible");
-    overlay.addEventListener("transitionend", function handler() {
-      overlay.removeEventListener("transitionend", handler);
-      overlay.style.display = "none";
-      overlay.querySelectorAll(".blayer").forEach(l => {
-        l.style.transition = "none";
-        l.style.transform = "translateY(0)";
-      });
-    });
-  }
 
   /* El overlay de pedido se abre desde los botones verdes de toda la página. */
   const pedidoOverlay = document.getElementById("pedido-overlay");

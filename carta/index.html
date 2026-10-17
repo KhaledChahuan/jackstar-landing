@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Carta Jack Star</title>
+<meta name="description" content="Carta de Jack Star en Quillota y La Calera: smash burgers, pulled pork, mechadas, papas, cervezas y tragos." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #0a0a0a;
+    --ink:   #141414;
+    --red:   #c8000a;
+    --red-2: #a30008;
+    --white: #f0ece4;
+    --gold:  #f2b705;
+    --purple:#6b3fd1;
+    --line:  rgba(240,236,228,.22);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { background: var(--black); color: var(--white); font-family: "DM Sans", sans-serif; overflow-x: hidden; }
+  body.lock { overflow: hidden; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+
+  /* ───────────── INTRO / HERO ───────────── */
+  .hero {
+    min-height: 100svh; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2.5rem 1rem 3rem; text-align: center;
+    background:
+      radial-gradient(ellipse 70% 45% at 50% 38%, rgba(200,0,10,.28), transparent 70%),
+      var(--black);
+  }
+  .hero::after { /* borde inferior dentado tipo ticket */
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 18px;
+    background: radial-gradient(circle at 10px 0, transparent 10px, var(--red) 10.5px) 0 0 / 20px 18px repeat-x;
+  }
+  .stage { width: min(78vw, 340px); aspect-ratio: 300 / 250; position: relative; }
+  .stage svg { width: 100%; height: 100%; overflow: visible; }
+  .stroke { fill: none; stroke: var(--red); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+  .stroke.thin { stroke-width: 4; }
+
+  /* armado de la burger */
+  .bun-bottom { stroke-dasharray: 560; stroke-dashoffset: 560; animation: draw .55s .15s ease-out forwards; }
+  .patty   { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; animation: drop .5s .55s cubic-bezier(.3,1.6,.5,1) forwards; }
+  .cheese  { transform-box: fill-box; transform-origin: 50% 0; opacity: 0; animation: melt .5s 1s ease-out forwards; }
+  .lettuce { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; animation: drop .5s .8s cubic-bezier(.3,1.6,.5,1) forwards; }
+  .bun-top { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; animation: dropTop .65s 1.15s cubic-bezier(.3,1.5,.5,1) forwards; }
+  .seed    { transform-box: fill-box; transform-origin: center; transform: scale(0); animation: pop .3s ease-out forwards; }
+  .burger  { transform-origin: 150px 225px; animation: squash .45s 1.7s ease-out, float 3.2s 2.4s ease-in-out infinite; }
+  .ray     { stroke: var(--gold); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 30; stroke-dashoffset: 30; opacity: 0; animation: ray 2.8s 1.75s ease-out infinite; }
+  .steam   { fill: none; stroke: rgba(240,236,228,.35); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: steam 2.4s 2.2s ease-in-out infinite; }
+  .steam:nth-of-type(2) { animation-delay: 2.6s; }
+  .steam:nth-of-type(3) { animation-delay: 3s; }
+
+  @keyframes draw    { to { stroke-dashoffset: 0; } }
+  @keyframes drop    { 0% { opacity: 1; transform: translateY(-240px); } 100% { opacity: 1; transform: none; } }
+  @keyframes dropTop { 0% { opacity: 1; transform: translateY(-260px) rotate(-8deg); } 70% { transform: translateY(0) scaleY(.82) scaleX(1.06); } 100% { opacity: 1; transform: none; } }
+  @keyframes melt    { 0% { opacity: 1; transform: scaleY(0); } 100% { opacity: 1; transform: scaleY(1); } }
+  @keyframes pop     { 0% { transform: scale(0); } 70% { transform: scale(1.6); } 100% { transform: scale(1); } }
+  @keyframes squash  { 0%,100% { transform: none; } 40% { transform: scaleY(.9) scaleX(1.06); } }
+  @keyframes float   { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes ray     { 0% { stroke-dashoffset: 30; opacity: 1; } 25% { stroke-dashoffset: 0; opacity: 1; } 45%,100% { stroke-dashoffset: -30; opacity: 0; } }
+  @keyframes steam   { 0% { stroke-dashoffset: 60; opacity: 0; } 30% { opacity: 1; } 100% { stroke-dashoffset: -60; opacity: 0; } }
+
+  /* wordmark */
+  .wordmark { font-family: "Bebas Neue", sans-serif; font-size: clamp(3.4rem, 17vw, 5.6rem); line-height: .9; letter-spacing: .02em; display: flex; justify-content: center; align-items: center; margin-top: .6rem; }
+  .wordmark span { display: inline-block; opacity: 0; transform: translateY(40px) scale(1.6); animation: slam .4s cubic-bezier(.2,1.4,.4,1) forwards; }
+  .wordmark .star { color: var(--gold); font-size: .55em; margin: 0 .08em; transform: rotate(-180deg) scale(0); animation: starIn .6s 2.25s cubic-bezier(.2,1.6,.4,1) forwards; }
+  @keyframes slam   { to { opacity: 1; transform: none; } }
+  @keyframes starIn { to { opacity: 1; transform: none; } }
+  .tagline {
+    display: inline-block; margin-top: .5rem; padding: .35rem .9rem; border-radius: 999px;
+    background: var(--red); font-weight: 700; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    clip-path: inset(0 100% 0 0); animation: wipe .5s 2.55s ease-out forwards;
+  }
+  @keyframes wipe { to { clip-path: inset(0 0 0 0); } }
+
+  .fade-up { opacity: 0; transform: translateY(16px); animation: fadeUp .6s ease-out forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  .pick-title { margin-top: 2rem; font-size: .78rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(240,236,228,.6); animation-delay: 2.8s; }
+  .picker { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; width: min(100%, 420px); margin-top: .9rem; animation-delay: 2.95s; }
+  .pick {
+    position: relative; overflow: hidden; text-align: left;
+    border: 2px solid var(--line); border-radius: 18px; padding: 1rem .9rem .9rem;
+    transition: border-color .25s, transform .25s;
+  }
+  .pick::before { content: ""; position: absolute; inset: 0; background: var(--red); transform: translateY(101%); transition: transform .35s cubic-bezier(.6,0,.2,1); z-index: -1; }
+  .pick:hover, .pick:focus-visible { border-color: var(--red); transform: translateY(-3px); outline: none; }
+  .pick:active::before { transform: none; }
+  .pick-pin { width: 22px; height: 22px; color: var(--red); margin-bottom: .5rem; }
+  .pick-name { font-family: "Bebas Neue", sans-serif; font-size: 1.9rem; line-height: 1; }
+  .pick-addr { font-size: .75rem; color: rgba(240,236,228,.6); margin-top: .25rem; }
+  .pick-go { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-top: .7rem; }
+
+  /* ───────────── TOP BAR (selector fijo) ───────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+    padding: .6rem 1rem; padding-top: max(.6rem, env(safe-area-inset-top));
+    background: rgba(10,10,10,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,0,10,.35);
+  }
+  .mini-logo { color: inherit; text-decoration: none; font-family: "Bebas Neue", sans-serif; font-size: 1.6rem; letter-spacing: .02em; white-space: nowrap; }
+  .mini-logo b { color: var(--gold); font-weight: 400; font-size: .7em; vertical-align: .2em; }
+  .seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; background: #1d1d1d; border-radius: 999px; padding: 3px; min-width: 0; }
+  .seg-ind { position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); background: var(--red); border-radius: 999px; transition: transform .4s cubic-bezier(.5,1.6,.4,1); }
+  .seg[data-local="calera"] .seg-ind { transform: translateX(100%); }
+  .seg button { position: relative; padding: .45rem .8rem; font-size: .78rem; font-weight: 700; letter-spacing: .04em; white-space: nowrap; color: rgba(240,236,228,.65); transition: color .3s; }
+  .seg button[aria-pressed="true"] { color: var(--white); }
+
+  /* ───────────── SECCIONES ───────────── */
+  .menu { position: relative; }
+  .menu.swap { animation: swap .55s ease; }
+  @keyframes swap { 0% { opacity: 1; } 35% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
+
+  .section { position: relative; padding: 2.5rem 1rem 3.5rem; overflow: clip; }
+  .section.t-red   { background: var(--red); }
+  .section.t-black { background: var(--ink); }
+  .section.t-gold  { background: var(--gold); color: var(--black); --line: rgba(10,10,10,.25); }
+  .section-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; max-width: 720px; margin: 0 auto; }
+  .vtitle {
+    position: sticky; top: 4.2rem; align-self: start; height: max-content;
+    writing-mode: vertical-rl; font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(3.6rem, 16vw, 8rem); line-height: .8; letter-spacing: .01em;
+    color: var(--white); opacity: .95;
+    transform: translateX(30px); transition: transform .9s cubic-bezier(.2,1,.3,1), opacity .9s;
+  }
+  .t-gold .vtitle { color: var(--black); }
+  .section:not(.in) .vtitle { opacity: 0; }
+  .section.in .vtitle { transform: none; }
+
+  .emblem { width: 92px; height: 72px; margin-bottom: .5rem; }
+  .emblem svg { width: 100%; height: 100%; overflow: visible; }
+  .emblem .stroke { stroke: currentColor; stroke-width: 5; }
+
+  .group { margin-bottom: 2.2rem; }
+  .group-head { display: grid; grid-template-columns: 1fr var(--cols); align-items: end; gap: .4rem; margin-bottom: .3rem; }
+  .group-name { font-family: "Bebas Neue", sans-serif; font-size: 2rem; line-height: 1; letter-spacing: .02em; }
+  .group-sub { grid-column: 1 / -1; font-size: .78rem; opacity: .75; margin-top: -.2rem; }
+  .col-label { font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; text-align: center; opacity: .8; }
+
+  .item {
+    display: grid; grid-template-columns: 1fr var(--cols); column-gap: .4rem; row-gap: .3rem; align-items: center;
+    padding: .8rem 0; border-bottom: 1px dashed var(--line);
+    opacity: 0; transform: translateX(-18px); transition: opacity .5s ease, transform .5s cubic-bezier(.2,1,.3,1);
+    transition-delay: calc(var(--i) * 45ms);
+  }
+  .in .item { opacity: 1; transform: none; }
+  .item-name { font-weight: 500; font-size: 1.02rem; line-height: 1.2; }
+  .item-desc, .item .chips { grid-column: 1 / -1; }
+  .item-desc { font-size: .8rem; line-height: 1.4; opacity: .8; margin-top: -.1rem; }
+  .tag { display: inline-block; margin-left: .35rem; padding: .05rem .45rem; border-radius: 999px; font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; vertical-align: .15em; background: var(--black); color: var(--gold); }
+  .t-gold .tag { background: var(--red); color: var(--white); }
+  .tag.only { background: var(--white); color: var(--red); }
+  .chips { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+  .chip { font-size: .7rem; padding: .15rem .55rem; border: 1px solid currentColor; border-radius: 999px; opacity: .85; }
+
+  .price {
+    justify-self: center; min-width: 4.2rem; padding: .28rem .45rem; border: 2px solid currentColor; border-radius: 999px;
+    font-weight: 700; font-size: .82rem; text-align: center; white-space: nowrap;
+    transform: scale(.6); opacity: 0; transition: transform .45s cubic-bezier(.3,1.8,.5,1), opacity .3s;
+    transition-delay: calc(var(--i) * 45ms + 150ms);
+  }
+  .in .price { transform: none; opacity: 1; }
+  .price.solid { background: var(--white); color: var(--red); border-color: var(--white); }
+  .t-black .price.solid { background: var(--red); color: var(--white); border-color: var(--red); }
+  .t-gold .price.solid { background: var(--black); color: var(--gold); border-color: var(--black); }
+  .price.span { grid-column: 2 / -1; }
+  .price.empty { visibility: hidden; }
+
+  .note { margin-top: .8rem; font-family: "Bebas Neue", sans-serif; font-size: 1.35rem; letter-spacing: .04em; display: flex; align-items: center; gap: .5rem; }
+  .note::before { content: "★"; color: var(--gold); font-size: 1rem; }
+  .t-gold .note::before { color: var(--red); }
+
+  /* favoritas: carrusel con foto grande */
+  .favs { display: flex; gap: .8rem; overflow-x: auto; scroll-snap-type: x mandatory; margin: .6rem -1rem 0; padding: .4rem 1rem 1rem; scrollbar-width: none; }
+  .favs::-webkit-scrollbar { display: none; }
+  .fav {
+    flex: 0 0 72%; max-width: 280px; scroll-snap-align: start; position: relative; border-radius: 18px; overflow: hidden;
+    background: var(--black); color: var(--white); box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    opacity: 0; transform: translateY(30px) rotate(2deg); transition: opacity .6s, transform .7s cubic-bezier(.2,1.3,.4,1);
+    transition-delay: calc(var(--i) * 110ms + 200ms);
+  }
+  .in .fav { opacity: 1; transform: none; }
+  .fav-img { aspect-ratio: 1; overflow: hidden; }
+  .fav-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.15); transition: transform 1.4s cubic-bezier(.2,1,.3,1); transition-delay: calc(var(--i) * 110ms + 200ms); }
+  .in .fav-img img { transform: scale(1); }
+  .fav-badge { position: absolute; top: .7rem; left: .7rem; background: var(--gold); color: var(--black); font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .55rem; border-radius: 999px; }
+  .fav-body { padding: .8rem .9rem 1rem; }
+  .fav-name { font-family: "Bebas Neue", sans-serif; font-size: 1.9rem; line-height: 1; }
+  .fav-desc { font-size: .75rem; line-height: 1.35; opacity: .75; margin: .3rem 0 .7rem; }
+  .fav-prices { display: flex; gap: .4rem; flex-wrap: wrap; }
+  .fav-prices span { font-size: .78rem; font-weight: 700; padding: .25rem .6rem; border-radius: 999px; border: 2px solid var(--red); }
+  .fav-prices small { font-weight: 400; opacity: .7; margin-right: .25rem; }
+  .swipe-hint { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-top: .2rem; }
+
+  /* miniatura por producto */
+  .item-name { display: flex; align-items: center; gap: .65rem; }
+  .thumb { flex: 0 0 auto; width: 58px; height: 58px; border-radius: 12px; overflow: hidden; border: 2px solid currentColor; padding: 0; cursor: zoom-in; transform: rotate(-4deg); transition: transform .3s; }
+  .thumb:hover { transform: rotate(0) scale(1.06); }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* visor de fotos */
+  .lightbox { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 1.5rem; background: rgba(0,0,0,.88); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox figure { max-width: 520px; width: 100%; transform: scale(.85); transition: transform .4s cubic-bezier(.3,1.5,.5,1); }
+  .lightbox.open figure { transform: none; }
+  .lightbox img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 16px; }
+  .lightbox figcaption { margin-top: .8rem; text-align: center; font-family: "Bebas Neue", sans-serif; font-size: 2rem; }
+
+  .feature { display: grid; grid-template-columns: 42% 1fr; gap: 1rem; align-items: center; margin: .5rem 0 2.2rem; }
+  .feature img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 14px; border: 4px solid var(--white); transform: rotate(-3deg); }
+  .feature q { font-family: "Bebas Neue", sans-serif; font-size: 1.8rem; line-height: 1.05; }
+  .feature small { display: block; margin-top: .4rem; font-size: .75rem; opacity: .75; }
+
+  /* ───────────── NAV FLOTANTE ───────────── */
+  .dock {
+    position: fixed; left: 50%; bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 60;
+    display: flex; align-items: center; gap: .2rem; padding: .35rem .45rem .35rem .35rem;
+    background: var(--white); color: var(--red); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,.45);
+    transform: translate(-50%, 150%); transition: transform .5s cubic-bezier(.3,1.4,.5,1);
+  }
+  .dock.show { transform: translate(-50%, 0); }
+  .dock-btn { display: flex; align-items: center; gap: .55rem; padding-right: .5rem; }
+  .dock-ico { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--red); color: var(--white); }
+  .dock-ico svg { width: 22px; height: 22px; }
+  .dock-label { font-family: "Bebas Neue", sans-serif; font-size: 1.35rem; min-width: 7rem; text-align: left; color: var(--black); }
+  .dock-count { font-size: .7rem; font-weight: 700; color: var(--red); opacity: .8; }
+
+  .sheet-bg { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.55); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .sheet-bg.open { opacity: 1; pointer-events: auto; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; max-height: 78svh; overflow-y: auto;
+    background: var(--white); color: var(--black); border-radius: 22px 22px 0 0;
+    padding: .7rem 1rem calc(1.2rem + env(safe-area-inset-bottom));
+    transform: translateY(105%); transition: transform .45s cubic-bezier(.3,1.2,.5,1);
+  }
+  .sheet.open { transform: none; }
+  .sheet::before { content: ""; display: block; width: 44px; height: 5px; border-radius: 9px; background: rgba(10,10,10,.2); margin: 0 auto .8rem; }
+  .sheet h2 { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; opacity: .55; margin: 0 0 .4rem .2rem; font-weight: 700; }
+  .sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; max-width: 520px; margin: 0 auto; }
+  .sheet-grid button {
+    display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; text-align: left;
+    padding: .7rem .8rem; border-radius: 14px; background: rgba(10,10,10,.06);
+    opacity: 0; transform: translateY(14px); transition: opacity .3s, transform .4s cubic-bezier(.3,1.4,.5,1), background .2s;
+    transition-delay: calc(var(--i) * 30ms);
+  }
+  .sheet.open .sheet-grid button { opacity: 1; transform: none; }
+  .sheet-grid button b { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 1.5rem; line-height: 1; }
+  .sheet-grid button small { font-size: .7rem; opacity: .6; }
+  .sheet-grid button.on { background: var(--red); color: var(--white); }
+  .dock-label span { display: inline-block; animation: fadeUp .35s ease-out; }
+
+  .foot { padding: 3.5rem 1rem 7rem; font-size: .75rem; color: rgba(240,236,228,.5); text-align: center; }
+  .foot-copy { margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid #2a2a2a; font-size: .72rem; letter-spacing: .08em; color: rgba(240,236,228,.3); }
+  .foot-copy a { color: #7a6030; text-decoration: none; }
+  .foot-copy a:hover { color: var(--gold); }
+  .angus { max-width: 560px; margin: 0 auto 2.5rem; text-align: left; color: rgba(240,236,228,.8); }
+  .angus h3 { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 2.4rem; color: var(--white); margin-bottom: .6rem; }
+  .angus h3::after { content: " ★"; color: var(--red); font-size: .7em; }
+  .angus p { font-size: .86rem; line-height: 1.6; margin-bottom: .8rem; }
+  .angus-tag { display: inline-block; margin-top: .4rem; padding: .35rem .8rem; border-radius: 999px; background: var(--red); color: var(--white); font-weight: 700; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+  .contacto { max-width: 560px; margin: 0 auto 2rem; padding: 1.4rem 1rem; border: 2px solid rgba(240,236,228,.15); border-radius: 18px; }
+  .contacto-modos { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .6rem; }
+  .contacto-local b { display: block; font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 2rem; color: var(--white); }
+  .contacto-local a { color: var(--gold); font-weight: 700; font-size: 1.05rem; text-decoration: none; }
+
+  @media (min-width: 720px) {
+    .section { padding: 4rem 2rem 5rem; }
+    .group-name { font-size: 2.4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  }
+</style>
+</head>
+<body class="lock">
+
+<!-- ═══════════ INTRO ═══════════ -->
+<header class="hero" id="inicio">
+  <div class="stage" aria-hidden="true">
+    <svg viewBox="0 0 300 250">
+      <!-- rayos -->
+      <g>
+        <line class="ray" x1="150" y1="18" x2="150" y2="-14" />
+        <line class="ray" x1="95"  y1="30" x2="76"  y2="4" style="animation-delay:1.8s" />
+        <line class="ray" x1="205" y1="30" x2="224" y2="4" style="animation-delay:1.8s" />
+        <line class="ray" x1="55"  y1="62" x2="28"  y2="46" style="animation-delay:1.85s" />
+        <line class="ray" x1="245" y1="62" x2="272" y2="46" style="animation-delay:1.85s" />
+      </g>
+      <g class="burger">
+        <!-- pan inferior -->
+        <path class="stroke bun-bottom" d="M58 196 H242 V204 Q242 226 220 226 H80 Q58 226 58 204 Z" />
+        <!-- carne -->
+        <rect class="stroke patty" x="50" y="160" width="200" height="24" rx="12" />
+        <!-- queso derretido -->
+        <path class="stroke thin cheese" d="M62 160 L84 160 L92 176 L100 160 L170 160 L180 180 L190 160 L238 160" style="stroke:var(--gold)" />
+        <!-- lechuga -->
+        <path class="stroke lettuce" d="M48 146 q12 -12 25.5 0 t25.5 0 t25.5 0 t25.5 0 t25.5 0 t25.5 0 t25.5 0 t25.5 0" />
+        <!-- pan superior -->
+        <g class="bun-top">
+          <path class="stroke" d="M56 128 C56 70 100 46 150 46 C200 46 244 70 244 128 Z" />
+          <g style="fill:var(--red)">
+            <ellipse class="seed" cx="112" cy="78"  rx="5" ry="3" style="animation-delay:1.6s" />
+            <ellipse class="seed" cx="150" cy="68"  rx="5" ry="3" style="animation-delay:1.66s" />
+            <ellipse class="seed" cx="188" cy="78"  rx="5" ry="3" style="animation-delay:1.72s" />
+            <ellipse class="seed" cx="90"  cy="102" rx="5" ry="3" style="animation-delay:1.78s" />
+            <ellipse class="seed" cx="131" cy="96"  rx="5" ry="3" style="animation-delay:1.84s" />
+            <ellipse class="seed" cx="169" cy="96"  rx="5" ry="3" style="animation-delay:1.9s" />
+            <ellipse class="seed" cx="210" cy="102" rx="5" ry="3" style="animation-delay:1.96s" />
+          </g>
+        </g>
+      </g>
+      <!-- vapor -->
+      <path class="steam" d="M118 34 q-8 -10 0 -20 t0 -20" />
+      <path class="steam" d="M150 30 q-8 -10 0 -20 t0 -20" />
+      <path class="steam" d="M182 34 q-8 -10 0 -20 t0 -20" />
+    </svg>
+  </div>
+
+  <h1 class="wordmark" aria-label="Jack Star">
+    <span style="animation-delay:1.9s">J</span><span style="animation-delay:1.96s">A</span><span style="animation-delay:2.02s">C</span><span style="animation-delay:2.08s">K</span><span class="star">★</span><span style="animation-delay:2.1s">S</span><span style="animation-delay:2.16s">T</span><span style="animation-delay:2.22s">A</span><span style="animation-delay:2.28s">R</span>
+  </h1>
+  <div class="tagline">Pulled Pork · Smash Burger · Mechadas</div>
+
+  <p class="pick-title fade-up">Elige tu local para ver la carta</p>
+  <div class="picker fade-up">
+    <button class="pick" data-pick="quillota">
+      <svg class="pick-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <div class="pick-name">Quillota</div>
+      <div class="pick-addr">Av. Valparaíso 1815</div>
+      <div class="pick-go">Ver carta →</div>
+    </button>
+    <button class="pick" data-pick="calera">
+      <svg class="pick-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <div class="pick-name">La Calera</div>
+      <div class="pick-addr">Caupolicán 984</div>
+      <div class="pick-go">Ver carta →</div>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ CARTA ═══════════ -->
+<div class="topbar" id="carta" hidden>
+  <a class="mini-logo" href="../" aria-label="Volver al inicio de Jack Star">JACK<b>★</b>STAR</a>
+  <div class="seg" data-local="quillota" role="group" aria-label="Sucursal">
+    <div class="seg-ind"></div>
+    <button data-local="quillota" aria-pressed="true">Quillota</button>
+    <button data-local="calera" aria-pressed="false">La Calera</button>
+  </div>
+</div>
+<main class="menu" id="menu" hidden></main>
+<footer class="foot" hidden>
+  <div class="angus">
+    <h3>Carne Angus</h3>
+    <p>Se trata de una raza bovina autóctona de Escocia, originaria de la región —y posteriormente extendida a América y Australia— criada especialmente para el consumo y muy apreciada por los expertos gastronómicos por su contenido en grasa infiltrada y excelente calidad, estando incluso al mismo nivel que la carne de wagyu o del kobe japonés. Toda una delicatessen cada vez más popular en nuestro país y que vale la pena degustar.</p>
+    <p>En Jack Star contamos con el proveedor más grande del país, el cual nos garantiza una carne angus fresca todas las semanas. Nuestras burger nunca congeladas y con altos estándares de calidad para poder degustar sus sabores y jugosidad de la carne.</p>
+    <div class="angus-tag">Nuestras burger 100% Angus</div>
+  </div>
+  <div class="contacto">
+    <div class="contacto-modos">Delivery · Retiro · Consumo en local y terraza</div>
+    <div class="contacto-local"></div>
+  </div>
+  <small><a href="../" style="color:inherit">← Volver a Jack Star</a> · Precios sujetos a cambio</small>
+  <div class="foot-copy">© 2026 Jack Star · Todos los derechos reservados · by <a href="https://stratlab.cl" target="_blank" rel="noopener">stratlab.cl</a></div>
+</footer>
+
+<nav class="dock" aria-label="Secciones"></nav>
+
+<!-- emblemas animados por sección -->
+<template id="emblem-burgers">
+  <svg viewBox="0 0 100 80"><style>
+    .in .eb-top { animation: ebBounce 1.6s .3s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+  </style>
+    <path class="stroke eb-top" d="M18 36 C18 16 34 8 50 8 C66 8 82 16 82 36 Z" />
+    <path class="stroke" d="M14 46 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0" />
+    <rect class="stroke" x="14" y="52" width="72" height="10" rx="5" />
+    <path class="stroke" d="M18 68 H82 V70 Q82 76 76 76 H24 Q18 76 18 70 Z" />
+  </svg>
+</template>
+<template id="emblem-papas">
+  <svg viewBox="0 0 100 80"><style>
+    .in .ef { animation: ebFry 1.4s ease-in-out infinite; }
+    .in .ef:nth-of-type(2) { animation-delay: .2s; } .in .ef:nth-of-type(3) { animation-delay: .4s; } .in .ef:nth-of-type(4) { animation-delay: .1s; }
+  </style>
+    <line class="stroke ef" x1="38" y1="40" x2="34" y2="10" />
+    <line class="stroke ef" x1="50" y1="40" x2="50" y2="4" />
+    <line class="stroke ef" x1="62" y1="40" x2="66" y2="10" />
+    <line class="stroke ef" x1="44" y1="40" x2="42" y2="18" />
+    <path class="stroke" d="M26 34 L32 76 H68 L74 34 Q50 46 26 34 Z" style="fill:var(--ink)" />
+    <text x="50" y="66" text-anchor="middle" style="font:22px 'Bebas Neue';fill:var(--gold)">★</text>
+  </svg>
+</template>
+<template id="emblem-cervezas">
+  <svg viewBox="0 0 100 80"><style>
+    .in .mugL { animation: clinkL 2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .in .mugR { animation: clinkR 2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .in .spark { animation: spark 2s ease-out infinite; }
+  </style>
+    <g class="mugL">
+      <path class="stroke" d="M14 24 H40 V72 H14 Z" />
+      <path class="stroke" d="M40 34 H46 Q50 34 50 40 V52 Q50 58 46 58 H40" />
+      <path class="stroke" d="M12 24 q4 -10 10 -4 q4 -8 10 -2 q6 -6 10 4" />
+    </g>
+    <g class="mugR">
+      <path class="stroke" d="M60 24 H86 V72 H60 Z" />
+      <path class="stroke" d="M60 34 H54 Q50 34 50 40 V52 Q50 58 54 58 H60" />
+      <path class="stroke" d="M58 24 q4 -10 10 -4 q4 -8 10 -2 q6 -6 10 4" />
+    </g>
+    <g class="spark" style="stroke:var(--red)">
+      <line class="stroke" x1="50" y1="8" x2="50" y2="0" style="stroke-width:4" />
+      <line class="stroke" x1="40" y1="10" x2="36" y2="3" style="stroke-width:4" />
+      <line class="stroke" x1="60" y1="10" x2="64" y2="3" style="stroke-width:4" />
+    </g>
+  </svg>
+</template>
+
+<template id="emblem-chicken">
+  <svg viewBox="0 0 100 80"><style>.in .ck { animation: ckPeck 2s ease-in-out infinite; transform-box: fill-box; transform-origin: 70% 80%; }</style>
+    <g class="ck">
+      <path class="stroke" d="M50 52 Q26 60 20 40 Q14 18 36 10 Q58 4 64 26 Q68 40 50 52 Z" />
+      <path class="stroke thin" d="M30 24 q6 -6 14 -4 M28 36 q4 4 10 4" style="stroke:var(--gold)" />
+      <path class="stroke" d="M56 46 L72 62" />
+      <circle class="stroke thin" cx="76" cy="62" r="5" />
+      <circle class="stroke thin" cx="70" cy="68" r="5" />
+    </g>
+  </svg>
+</template>
+<template id="emblem-sandwich">
+  <svg viewBox="0 0 100 80"><style>.in .sw-top { animation: ebBounce 1.8s .3s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }</style>
+    <path class="stroke sw-top" d="M10 38 Q10 18 50 18 Q90 18 90 38 Z" />
+    <path class="stroke" d="M8 48 q7 -7 14 0 t14 0 t14 0 t14 0 t14 0 t14 0" />
+    <path class="stroke" d="M12 56 h76" style="stroke:var(--red)" />
+    <path class="stroke" d="M10 62 H90 Q90 74 78 74 H22 Q10 74 10 62 Z" />
+  </svg>
+</template>
+<template id="emblem-compartir">
+  <svg viewBox="0 0 100 80"><style>.in .cb { animation: ebFry 1.6s ease-in-out infinite; } .in .cb:nth-of-type(2){animation-delay:.25s} .in .cb:nth-of-type(3){animation-delay:.5s}</style>
+    <circle class="stroke cb" cx="34" cy="34" r="9" />
+    <circle class="stroke cb" cx="52" cy="28" r="9" />
+    <circle class="stroke cb" cx="68" cy="36" r="9" />
+    <path class="stroke" d="M12 44 H88 L80 72 H20 Z" style="fill:var(--ink)" />
+    <path class="stroke thin" d="M28 56 h44" style="stroke:var(--red)" />
+  </svg>
+</template>
+<template id="emblem-dulce">
+  <svg viewBox="0 0 100 80"><style>.in .straw { animation: straw 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 100%; } .in .cream { animation: ebFry 2.4s ease-in-out infinite; }</style>
+    <path class="stroke straw" d="M54 22 L64 0" style="stroke:var(--red)" />
+    <path class="stroke cream" d="M32 24 q0 -10 10 -10 q4 -8 12 -4 q10 -2 12 8 q6 2 4 8 Z" />
+    <path class="stroke" d="M30 26 H72 L66 72 H36 Z" />
+    <path class="stroke thin" d="M34 44 H68" />
+  </svg>
+</template>
+<template id="emblem-tragos">
+  <svg viewBox="0 0 100 80"><style>.in .slice { animation: swing 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 100%; } .in .bub { animation: rise 2s ease-in infinite; } .in .bub:nth-of-type(2){animation-delay:.7s} .in .bub:nth-of-type(3){animation-delay:1.3s}</style>
+    <path class="stroke" d="M22 14 H78 L50 46 Z" />
+    <path class="stroke" d="M50 46 V72 M36 74 H64" />
+    <circle class="bub" cx="44" cy="30" r="2.5" fill="currentColor" />
+    <circle class="bub" cx="52" cy="34" r="2" fill="currentColor" />
+    <circle class="bub" cx="58" cy="26" r="2" fill="currentColor" />
+    <g class="slice"><circle class="stroke" cx="76" cy="12" r="10" style="stroke:var(--gold)" /><path class="stroke thin" d="M76 2 v20 M66 12 h20" style="stroke:var(--gold)" /></g>
+  </svg>
+</template>
+<template id="emblem-bebidas">
+  <svg viewBox="0 0 100 80"><style>.in .can { animation: ebBounce 2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; } .in .bub { animation: rise 1.8s ease-in infinite; } .in .bub:nth-of-type(2){animation-delay:.6s} .in .bub:nth-of-type(3){animation-delay:1.2s}</style>
+    <g class="can">
+      <path class="stroke" d="M34 16 H66 V72 H34 Z" />
+      <path class="stroke" d="M38 10 H62" />
+      <path class="stroke thin" d="M34 36 H66 M34 52 H66" style="stroke:var(--red)" />
+    </g>
+    <circle class="bub" cx="76" cy="40" r="3" fill="currentColor" />
+    <circle class="bub" cx="82" cy="50" r="2" fill="currentColor" />
+    <circle class="bub" cx="72" cy="56" r="2" fill="currentColor" />
+  </svg>
+</template>
+<template id="emblem-extras">
+  <svg viewBox="0 0 100 80"><style>.in .drip { animation: drip 2.2s ease-in infinite; }</style>
+    <path class="stroke" d="M36 14 H64 V24 H36 Z" />
+    <path class="stroke" d="M40 24 L42 34 H58 L60 24" />
+    <path class="stroke" d="M18 46 H82 Q80 72 50 72 Q20 72 18 46 Z" />
+    <path class="stroke thin" d="M26 46 q8 -8 16 0 t16 0 t16 0" style="stroke:var(--gold)" />
+    <circle class="drip" cx="50" cy="38" r="3" style="fill:var(--gold)" />
+  </svg>
+</template>
+
+<style>
+  @keyframes ckPeck { 0%,55%,100% { transform: none; } 65% { transform: rotate(14deg); } 75% { transform: rotate(0); } 85% { transform: rotate(12deg); } }
+  @keyframes straw { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-12deg); } }
+  @keyframes swing { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(10deg); } }
+  @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-22px); opacity: 0; } }
+  @keyframes drip { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(10px); opacity: 1; } 100% { transform: translateY(14px); opacity: 0; } }
+  @keyframes ebBounce { 0%,60%,100% { transform: none; } 70% { transform: translateY(-8px) rotate(-4deg); } 85% { transform: translateY(0) scaleY(.92); } }
+  @keyframes ebFry { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @keyframes clinkL { 0%,30%,100% { transform: rotate(0); } 45% { transform: translateX(4px) rotate(14deg); } 55% { transform: translateX(3px) rotate(10deg); } }
+  @keyframes clinkR { 0%,30%,100% { transform: rotate(0); } 45% { transform: translateX(-4px) rotate(-14deg); } 55% { transform: translateX(-3px) rotate(-10deg); } }
+  @keyframes spark { 0%,40% { opacity: 0; } 46% { opacity: 1; } 65%,100% { opacity: 0; } }
+</style>
+
+<script>
+/* ─────────────────────────────────────────────
+   DATOS — en la versión final, esto sería un JSON
+   editable. `solo` marca lo que existe en un solo local.
+   ───────────────────────────────────────────── */
+const LOCALES = {
+  quillota: { nombre: "Quillota", dir: "Av. Valparaíso 1815", tel: "+56977765787", telTxt: "+56 9 7776 5787" },
+  calera:   { nombre: "La Calera", dir: "Caupolicán 984", tel: "+56921613810", telTxt: "+56 9 2161 3810" },
+};
+
+const F = "../photos/carta/";
+const SECCIONES = [
+  {
+    id: "burgers", titulo: "Burgers", tema: "t-red",
+    grupos: [
+      {
+        nombre: "Las favoritas", sub: "Desliza para ver más →", fotos: true, cols: ["Simple", "Doble"],
+        items: [
+          { n: "Red Pepper", img: F + "red-pepper.jpg", badge: "La más pedida", d: "Carne angus, queso cheddar, tocino, mermelada de pimentón, cebolla crispy y salsa Jack.", p: [10900, 12900] },
+          { n: "Tocino Caramel", img: F + "tocino-caramel.jpg", badge: "Patty Melt", d: "Doble carne angus, doble queso cheddar, tocino ahumado, mermelada de tocino y salsa Jack.", p: [11900], span: true },
+          { n: "Keto Burger", img: F + "keto-burger.jpg", badge: "New", d: "Carne angus, queso mantecoso, tomate, palta y salsa Big Jack envuelto en fresca lechuga.", p: [10900, 12900] },
+          { n: "Trufada", img: F + "trufada.jpg", badge: "Burger del mes", d: "Carne angus, queso mantecoso, champiñones, lechuga y mayo trufada.", p: [10900, 12900] },
+        ],
+      },
+      {
+        nombre: "100% Angus", cols: ["Simple", "Doble"],
+        items: [
+          { n: "Burger Cheese", d: "Carne angus, doble queso cheddar, pepinillos y salsa Jack.", p: [7900, 8900] },
+          { n: "Burger Clásica", d: "Carne angus, queso cheddar, lechuga, cebolla morada y salsa Jack.", p: [8500, 9500] },
+          { n: "Cuarto de Jack", d: "Carne angus, doble queso cheddar, cebolla, ketchup, mostaza y pepinillos.", p: [8500, 9500] },
+          { n: "Tocino Cheese Burger", d: "Carne angus, queso cheddar, tocino y salsa Jack.", p: [8900, 9900] },
+          { n: "Italiana Jack", d: "Carne angus, queso mantecoso, palta, tomate y salsa Jack.", p: [9500, 10500] },
+          { n: "Blue Burger", d: "Carne angus, queso azul, champiñones, cebolla caramelizada en whisky, tocino y salsa Jack.", p: [9500, 11500] },
+          { n: "Burger Gringa", d: "Carne angus, queso cheddar, cebolla caramelizada en whisky, tocino, pepinillo, salsa especial BBQ y salsa Jack.", p: [9500, 11500], chips: ["Triple $13.500"] },
+          { n: "Big Mac Jack", d: "2 doble carne angus, queso cheddar, pan en el centro, lechuga, pepinillos, cebolla en cubo y salsa Big Jack.", p: [null, 10500] },
+          { n: "4 Quesos", d: "Carne angus, queso cheddar, queso azul, queso mantecoso, tocino, pepinillos y cheddar en salsa.", p: [9500, 11500] },
+          { n: "Burger Ahumada", d: "Carne angus con toque de merkén ahumado, queso cheddar, tocino, cebolla morada, salsa BBQ y salsa Jack.", p: [9500, 11500] },
+          { n: "Quillota Burger", d: "Carne angus, queso cheddar, palta, cebolla morada, pepinillos, salsa BBQ y salsa Jack de la casa.", p: [9500, 11500] },
+          { n: "Camarona Burger", d: "Carne angus, queso cheddar, camarones al ajo, palta, cebolla morada y salsa Jack de la casa.", p: [10500, 12500] },
+          { n: "Burger 3x3", tag: "Smash", d: "Triple (3) carnes angus, triple queso cheddar, pepinillos, tocino, cebolla caramelizada en whisky y salsa Jack.", p: [13500], span: true },
+          { n: "Super Jack Star", tag: "Smash", d: "5 carnes angus con queso cheddar, pepinillos, cebolla caramelizada en whisky y salsa Jack.", p: [15900], span: true },
+          { n: "Crispy Onion", d: "Carne angus, queso cheddar, champiñones, aros de cebolla, palta y salsa Jack.", p: [10500, 12500] },
+          { n: "Burger Vegetariana", d: "Not Burger / Not Mila, queso cheddar, palta, lechuga, tomate, salsa BBQ y salsa Jack.", p: [8500], span: true },
+        ],
+      },
+      {
+        nombre: "Estilo Patty Melt", sub: "Nuevas burger con pan de molde artesanal · Burger premium", cols: [""],
+        items: [
+          { n: "Tocino Caramel", img: F + "tocino-caramel.jpg", d: "Doble carne angus, doble queso cheddar, tocino ahumado, mermelada de tocino y salsa Jack.", p: [11900] },
+          { n: "Blue Caramel", d: "Doble carne angus, queso azul, mermelada de tocino, champiñones y salsa Jack.", p: [12900] },
+          { n: "Campesina Jack", d: "Doble carne angus, queso cheddar, cebolla caramelizada en whisky Jack Daniels, tocino, huevo de campo frito y salsa Jack.", p: [12900] },
+        ],
+      },
+      {
+        nombre: "Burgers nuevas", sub: "100% Angus · 100% Smash", cols: ["Simple", "Doble"],
+        items: [
+          { n: "Tasty Burger", tag: "Premium", d: "Doble carne angus, queso cheddar, lechuga, tomate y salsa Tasty.", p: [null, 12900] },
+          { n: "Gran Tasty", d: "Doble carne angus, queso cheddar, lechuga, tomate, tocino y salsa Tasty.", p: [null, 12900] },
+          { n: "Turbo Gringa", d: "Carne angus, queso cheddar, tocino, pepinillos, cebolla caramelizada en whisky, salsa especial BBQ y salsa Jack + 3 bastones de queso mozzarella.", p: [11900, 13900] },
+          { n: "Tocino Tropical", d: "Carne angus, queso cheddar, tocino, mermelada de piña, salsa BBQ Heinz y salsa Big Jack.", p: [10900, 12900] },
+        ],
+      },
+      {
+        nombre: "Elige tu favorita", sub: "Todas a Simple $10.900 / Doble $12.900", cols: ["Simple", "Doble"],
+        items: [
+          { n: "Burger Mex", d: "Carne angus, queso cheddar, jalapeños, palta, tomate, Doritos y salsa Jack + extra porción de Doritos.", p: [10900, 12900] },
+          { n: "Miss Relish", d: "Carne angus, queso mantecoso, salsa BBQ, tocino, relish (mermelada de pepinillos), cebolla crispy y salsa Big Jack.", p: [10900, 12900] },
+          { n: "Red Pepper", img: F + "red-pepper.jpg", d: "Carne angus, queso cheddar, tocino, mermelada de pimentón, cebolla crispy y salsa Jack.", p: [10900, 12900] },
+          { n: "Argentina Burger", d: "Carne angus, queso cheddar, lechuga, tomate, cebolla morada, salsa Jack y smash de chorizo argentino con chimichurri.", p: [10900, 12900] },
+          { n: "Trufada", img: F + "trufada.jpg", d: "Carne angus, queso mantecoso, champiñones, lechuga y mayo trufada.", p: [10900, 12900] },
+          { n: "Keto Burger", img: F + "keto-burger.jpg", tag: "New", d: "Carne angus, queso mantecoso, tomate, palta y salsa Big Jack envuelto en fresca lechuga. Cambia papas por agua mineral.", p: [10900, 12900] },
+        ],
+      },
+      {
+        nombre: "Nuevas burger exóticas", cols: ["Simple", "Doble"],
+        items: [
+          { n: "Cheddar Supreme", img: F + "cheddar-supreme.jpg", d: "Carne angus, doble queso cheddar, tocino americano, salsa Jack, montada en plato cubierto de salsa especial cheddar caliente y coronado con tocino crispy.", p: [14900, null] },
+          { n: "Smutter", d: "Doble carne angus, doble queso cheddar, mantequilla de maní casera con merkén, mermelada de bacon, cebolla crispy y salsa Jack.", p: [12900, 14900] },
+        ],
+        nota: "Todas las burgers incluyen papas fritas",
+      },
+    ],
+  },
+  {
+    id: "chicken", titulo: "Chicken", tema: "t-black",
+    grupos: [{
+      nombre: "Fingers Pollo Burger", sub: "Elige fingers de pollo o pechuga artesanal", cols: [""],
+      items: [
+        { n: "Chicken Cheese", d: "Pollo frito, doble queso cheddar, pepinillos Heinz y salsa Jack.", p: [7900] },
+        { n: "Chicken Clásica", d: "Pollo frito, queso cheddar, lechuga, cebolla morada y salsa Jack.", p: [8500] },
+        { n: "Chicken Gringa", d: "Pollo frito, queso cheddar, tocino, pepinillos Heinz, cebolla caramelizada en whisky, salsa especial BBQ y salsa Jack.", p: [9500] },
+        { n: "Chicken Quillota", d: "Pollo frito, queso cheddar, palta, cebolla morada, pepinillos Heinz, salsa BBQ y salsa Jack de la casa.", p: [9500] },
+        { n: "Chicken Coleslaw", d: "Pollo frito, queso cheddar, coleslaw, pepinillos Heinz, mayonesa Jack y salsa BBQ.", p: [8500] },
+        { n: "Chicken 4 Quesos", d: "Pollo frito, queso cheddar, queso mantecoso, queso azul, coronado con salsa de queso cheddar y pepinillos Heinz.", p: [9500] },
+        { n: "Chicken Italiana", d: "Pollo frito, queso mantecoso, palta, tomate y salsa Jack.", p: [9500] },
+        { n: "Chicken Teriyaki", d: "Pollo frito, queso cheddar, palta, ciboulette, semillas de sésamo y salsa Jack de la casa.", p: [8900] },
+        { n: "Papas Chicken", d: "6 chicken fingers + papas fritas y 2 salsas.", p: [8500] },
+      ],
+      nota: "Incluyen papas fritas",
+    }],
+  },
+  {
+    id: "sandwich", titulo: "Sandwich", tema: "t-red",
+    grupos: [{
+      nombre: "Mechadas y churrascos", sub: "Pan ciabatta o brioche de papa", cols: [""],
+      items: [
+        { n: "Mechada Luco", d: "Carne desilachada, queso mantecoso y salsa Jack.", p: [7900] },
+        { n: "Mechada Palta", d: "Carne desilachada, queso, palta y salsa Jack.", p: [8900] },
+        { n: "Mechada Italiana", d: "Carne desilachada, palta, tomate y salsa Jack.", p: [8900] },
+        { n: "Mechada Super", d: "Carne desilachada, queso mantecoso, lechuga, palta, tomate y salsa Jack.", p: [9900] },
+        { n: "Mechada Gringa", d: "Carne desilachada, cebolla caramelizada en whisky, tocino, queso cheddar, pepinillos y salsa Jack.", p: [9900] },
+        { n: "Churrasco Luco", d: "Carne de vacuno, queso mantecoso y salsa Jack.", p: [7900] },
+        { n: "Churrasco Italiano", d: "Carne de vacuno, palta, tomate y salsa Jack.", p: [8900] },
+        { n: "Pulled Pork Jack", img: F + "pulled-pork-jack.jpg", tag: "De la casa", d: "Carne desilachada de cerdo, coleslaw fresca, queso cheddar, salsa BBQ, salsa Jack y pepinillos.", p: [9900] },
+      ],
+      nota: "Incluyen papas fritas",
+    }],
+  },
+  {
+    id: "compartir", titulo: "Compartir", tema: "t-black",
+    grupos: [
+      {
+        nombre: "Para compartir", cols: [""],
+        items: [
+          { n: "Bastones Mozzarella x8", img: F + "bastones-mozzarella.jpg", d: "+ 2 salsas.", p: [8500] },
+          { n: "Empanaditas Queso x7", img: F + "empanaditas-queso.jpg", p: [7000] },
+          { n: "Bolitas Jalapeño Cheddar x10", img: F + "bolitas-jalapeno-cheddar.jpg", p: [7900] },
+          { n: "Bolitas Jalapeño Crema x10", img: F + "bolitas-jalapeno-crema.jpg", p: [7900] },
+          { n: "Camarones Jack x10", img: F + "camarones-jack.jpg", p: [7900] },
+          { n: "Chicken Pop Corns", img: F + "chicken-pop-corns.jpg", p: [7500] },
+          { n: "Aros de Cebolla", img: F + "aros-de-cebolla.jpg", p: [6500] },
+          { n: "Alitas Jack 6 und", img: F + "alitas-jack.jpg", p: [8900] },
+          { n: "Nuggets de Pollo x10", img: F + "nuggets.jpg", p: [7500] },
+          { n: "Supremitas de Pollo x6", img: F + "supremitas.jpg", p: [7500] },
+        ],
+      },
+      {
+        nombre: "Agrega", cols: [""],
+        items: [
+          { n: "Triangulitos Mac and Cheese x10", img: F + "triangulitos-mac.jpg", d: "+ 2 salsas.", p: [7900] },
+          { n: "Alitas New York", img: F + "alitas-new-york.jpg", d: "+ 2 salsas.", p: [8900] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "papas", titulo: "Papas", tema: "t-gold",
+    grupos: [{
+      nombre: "Papas", sub: "Porción para 2 personas", cols: [""],
+      items: [
+        { n: "Papas Fritas", p: [4900] },
+        { n: "Papas Cheddar", d: "Papas fritas y salsa especial cheddar de la casa.", p: [6500] },
+        { n: "Papas Cheddar Tocino", d: "Papas fritas, salsa especial cheddar de la casa y tocino crispy.", p: [8500] },
+        { n: "Papas Quillotanas", d: "Papas fritas, mechada de la casa, palta y salsa Jack.", p: [10900] },
+        { n: "Papas Blue Cheese", d: "Papas fritas, queso azul, cebolla caramelizada y champiñón.", p: [9900] },
+        { n: "Papas Chicken", d: "6 supremitas + papas fritas y 2 salsas.", p: [8500] },
+        { n: "Papas Jack", img: F + "papas-jack.jpg", d: "Papas fritas, carne mechada de vacuno, queso cheddar, ciboulette y salsa Jack de la casa.", p: [9900] },
+        { n: "Papas Camaronas", d: "Papas fritas, camarones a la mantequilla y ajo, ciboulette y salsa Jack de la casa.", p: [10900] },
+        { n: "Papas Pulled Pork", d: "Papas fritas, carne de cerdo desilachada y ahumada 6 horas, pepinillos Heinz, salsa BBQ y salsa picante.", p: [9900] },
+      ],
+    }],
+  },
+  {
+    id: "dulce", titulo: "Algo dulce", tema: "t-red",
+    grupos: [{
+      nombre: "¿Algo dulce?", cols: [""],
+      items: [
+        { n: "Malteada Jack", chips: ["Vainilla", "Chocolate", "Frutilla"], p: [4900] },
+        { n: "Malteada Café Helado", p: [4900] },
+        { n: "Volcán de Chocolate", img: F + "volcan-chocolate.jpg", p: [3900] },
+        { n: "Cheesecake", img: F + "cheesecake.jpg", chips: ["Chocolate", "Frutilla", "Mora", "Frambuesa"], p: [3900] },
+        { n: "Café o Té", p: [2000] },
+      ],
+    }],
+  },
+  {
+    id: "cervezas", titulo: "Cervezas", tema: "t-gold",
+    grupos: [
+      {
+        nombre: "Botella y lata", cols: [""],
+        items: [
+          { n: "Stella Artois 660", p: [3900] },
+          { n: "Corona 330cc", p: [3500] },
+          { n: "Corona 620cc", p: [4500] },
+          { n: "Dolbek Maqui 500cc", p: [3900] },
+          { n: "Austral 500cc", d: "Botella.", chips: ["Calafate", "Torres del Paine"], p: [3900] },
+          { n: "Kustman 500cc", chips: ["Torobayo", "Miel", "Lager"], p: [3900] },
+          { n: "Cerveza Alemana 500cc", p: [5900] },
+          { n: "Delirium Red 330cc", p: [5900] },
+          { n: "Artesanal Greiscol", p: [4900] },
+          { n: "Artesanal Loco Eustaquio", p: [4900] },
+          { n: "Cerveza sin alcohol botellín", p: [2900] },
+        ],
+      },
+      {
+        nombre: "Cerveza Kross · Shop barril", solo: "quillota", cols: ["1", "2x"],
+        items: [
+          { n: "Pils", img: F + "kross-pils.jpg", tag: "World Beer Awards", d: "Línea clásica. German Pils 5,1° alc. – 25 IBU. De color dorado claro con notas a grano dulce, aromas florales y cítricos, de lúpulos nobles que combinan amargor balanceado y aroma. Refrescante, balanceada y con personalidad.", p: [5000, 9000] },
+          { n: "Golden", img: F + "kross-golden.jpg", tag: "World Beer Awards", d: "Línea clásica. Pale Ale 5,3° alc. – 22 IBU. De color dorado profundo y un perfil balanceado que combina notas dulces de caramelo y toffee con un toque floral y fresco. Una cerveza fácil de tomar pero con carácter.", p: [5000, 9000] },
+          { n: "IPA", img: F + "kross-ipa.jpg", d: "Línea super craft. India Pale Ale 5,7° alc. – 45 IBU. De color ámbar luminoso, combina un perfil aromático intenso, frutal-tropical y cítrico, con notas a mango, piña y maracuyá. Contiene lúpulos australianos y americanos.", p: [5000, 9000] },
+          { n: "Kross 5", img: F + "kross-5.jpg", d: "Línea especial. Strong Ale 7,2° alc. – 24 IBU. De color cobrizo profundo, madurada en roble americano tostado y elaborada con cinco tipos de malta y lúpulos, que entregan intensas notas a avellanas, madera, vainilla y caramelo.", p: [5500, 10000] },
+        ],
+      },
+      {
+        nombre: "Shop", solo: "quillota", cols: ["1", "2x"],
+        items: [
+          { n: "Shop Jack 1L", tag: "Barril", chips: ["Heineken", "Stella"], p: [5900, 10000] },
+          { n: "Shop Austral Calafate", tag: "CCU", p: [3900, 7000] },
+          { n: "Shop Heineken 500cc", tag: "CCU", p: [3900, 7000] },
+        ],
+      },
+      {
+        nombre: "Cervezas artesanales barril", solo: "calera", cols: ["1", "2x"],
+        items: [
+          { n: "Shop Húsar", img: F + "shop-husar.jpg", tag: "Barril", p: [5000, 9000] },
+          { n: "Shop Loco Eustaquio", img: F + "shop-loco-eustaquio.jpg", tag: "Barril", p: [5000, 9000] },
+        ],
+      },
+      {
+        nombre: "Prepárala", cols: ["500cc", "1 litro"],
+        items: [
+          { n: "Chelada", p: [1500, 2500], soloP: { calera: [1500, null] } },
+          { n: "Michelada", p: [1500, 2500], soloP: { calera: [1500, null] } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "tragos", titulo: "Tragos", tema: "t-black",
+    grupos: [
+      {
+        nombre: "Cócteles clásicos", cols: [""],
+        items: [
+          { n: "Pisco Sour tradicional", p: [4900] },
+          { n: "Pisco Sour catedral", p: [5900] },
+          { n: "Ramazzotti", chips: ["Tradicional", "Aperol", "Violetto"], p: [7000] },
+          { n: "Gin Tonic", p: [5900] },
+          { n: "Gin Tropical", p: [6900] },
+          { n: "Mojito tradicional", p: [5500] },
+          { n: "Mojito sabores", p: [6500] },
+          { n: "Mojito Cerveza (1L)", p: [11900] },
+          { n: "Mojito Red Bull (1L)", p: [11900] },
+          { n: "Mojito XL Litro (1L)", p: [11900] },
+          { n: "Mojito Espumante", p: [12900] },
+          { n: "Mojito Islandés", p: [9900] },
+          { n: "Daiquiri", p: [6900] },
+          { n: "Colada sabores", p: [7500] },
+          { n: "Tom Collins", p: [5900] },
+          { n: "Tinto de verano", p: [6500] },
+          { n: "Sangría", p: [6500] },
+          { n: "Moscow Mule", p: [8000] },
+          { n: "Cosmopolitan", p: [6900] },
+        ],
+      },
+      {
+        nombre: "Promos", cols: [""],
+        items: [
+          { n: "2 Gin Tropical", p: [11900] },
+          { n: "2 Mojitos sabores", p: [10900] },
+          { n: "2 Ramazzotti", p: [11900] },
+        ],
+      },
+      {
+        nombre: "Piscola XL", sub: "500cc", cols: ["1", "2x"],
+        items: [
+          { n: "Piscola XL", p: [4900, 7900] },
+          { n: "Piscola XL Nobel", p: [5900, 8900] },
+        ],
+      },
+      {
+        nombre: "Cocktail", cols: [""],
+        items: [
+          { n: "Italia Negroni", p: [6900] },
+          { n: "Caipiriña", p: [6900] },
+          { n: "Jagger", p: [6900] },
+          { n: "Jagger con Red Bull", p: [8900] },
+          { n: "Jagger Mojito", p: [8900] },
+        ],
+      },
+      {
+        nombre: "Mocktail", sub: "Sin alcohol", cols: [""],
+        items: [
+          { n: "Colada sabores", p: [6900] },
+          { n: "Tropical Gin", p: [5900] },
+          { n: "Purple Gin", p: [5900] },
+          { n: "Mojito tradicional", p: [4500] },
+          { n: "Mojito sabores", p: [5500] },
+          { n: "Mojito Kombucha", p: [7000] },
+          { n: "Mojito Cerveza", p: [9900] },
+        ],
+      },
+      {
+        nombre: "Ron", cols: [""],
+        items: [
+          { n: "Maddero Añejo", p: [3900] },
+          { n: "Havana", p: [5500] },
+          { n: "Bacardí Añejo", p: [5500] },
+          { n: "Malibú", p: [5500] },
+        ],
+      },
+      {
+        nombre: "Piscos", cols: [""],
+        items: [
+          { n: "Mistral 35°", p: [4900] },
+          { n: "Mistral 40°", p: [5500] },
+          { n: "Mistral Nobel 40°", p: [5900] },
+          { n: "Mistral Nobel Manzana 40°", p: [5900] },
+          { n: "Mistral Nobel Honey 40°", p: [5900] },
+          { n: "Mistral Nobel Fire 40°", p: [5900] },
+          { n: "Alto del Carmen 35°", p: [4900] },
+          { n: "Alto del Carmen 40°", p: [5900] },
+          { n: "Fundo Los Nichos 40°", p: [5500] },
+          { n: "Horcón Quemado 40°", p: [5500] },
+          { n: "Tololo Azul", p: [7900] },
+        ],
+      },
+      {
+        nombre: "Whiskey", cols: [""],
+        items: [
+          { n: "Jack Daniel's", chips: ["Tradicional", "Honey", "Apple", "Fire", "Blackberry"], p: [8900] },
+        ],
+      },
+      {
+        nombre: "Whisky", cols: [""],
+        items: [
+          { n: "Johnnie Walker Black Label", p: [9900] },
+          { n: "Chivas Regal 12 años", p: [9900] },
+          { n: "Johnnie Walker Red Label", p: [7900] },
+          { n: "Ballantine's", p: [7900] },
+        ],
+      },
+      {
+        nombre: "Vodka", cols: [""],
+        items: [
+          { n: "Absolut Blue", p: [7900] },
+          { n: "Absolut sabores", p: [7900] },
+        ],
+      },
+      {
+        nombre: "Gin", sub: "Tónica premium", cols: [""],
+        items: [
+          { n: "Bombay", p: [6900] },
+          { n: "Tanqueray", p: [7900] },
+          { n: "Tanqueray Berry", p: [8900] },
+          { n: "Bulldog", p: [9900] },
+          { n: "Hendrick's", p: [9900] },
+        ],
+      },
+      {
+        nombre: "Tequila", sub: "3 shot", cols: [""],
+        items: [
+          { n: "Sombrero Negro", p: [3900] },
+          { n: "Silver", p: [3900] },
+          { n: "Don Julio", tag: "★", p: [7900] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "bebidas", titulo: "Bebidas", tema: "t-red",
+    grupos: [
+      {
+        nombre: "Jugos y limonadas", cols: [""],
+        items: [
+          { n: "Jugos naturales", d: "Consulta sabores en stock.", p: [3500] },
+          { n: "Limonada", chips: ["Menta", "Menta jengibre"], p: [3500] },
+          { n: "Limonada sabores", p: [4500] },
+        ],
+      },
+      {
+        nombre: "Bebidas", cols: [""],
+        items: [
+          { n: "Coca-Cola · Fanta · Sprite", p: [2500] },
+          { n: "Pepsi · Kem · Bilz · Pap · Limón Soda · Canada Dry", p: [2500] },
+          { n: "Té frío Lipton", p: [2500] },
+          { n: "Dr Pepper", p: [3000] },
+          { n: "Bebidas importadas", p: [3000] },
+          { n: "Agua mineral", p: [1900] },
+        ],
+      },
+      {
+        nombre: "Energéticas", cols: [""],
+        items: [
+          { n: "Red Bull", chips: ["Tradicional", "Yellow", "Dragon Fruit", "Purple", "Blue"], p: [3000] },
+          { n: "Monster", p: [3000] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "extras", titulo: "Extras", tema: "t-black",
+    grupos: [
+      {
+        nombre: "Agrega a tu burger", cols: [""],
+        items: [
+          { n: "Extra queso", p: [1000] },
+          { n: "Lechuga", p: [1000] },
+          { n: "Tomate", p: [1000] },
+          { n: "Pepinillos Heinz", p: [1000] },
+          { n: "Cebolla cruda", p: [1000] },
+          { n: "Champiñones", p: [1500] },
+          { n: "Cebolla caramelizada", p: [1500] },
+          { n: "Palta", p: [2000] },
+          { n: "Tocino", p: [1500] },
+          { n: "Mermelada de tocino", p: [1500] },
+          { n: "Aros de cebolla", p: [1500] },
+          { n: "Cebolla crispy", p: [1500] },
+          { n: "Queso azul", p: [2000] },
+          { n: "Camarones", p: [2500] },
+          { n: "Extra carne", p: [2500] },
+          { n: "Mermelada de piña", p: [1500] },
+          { n: "Pote de relish", p: [1500] },
+        ],
+      },
+      {
+        nombre: "Salsas especiales", cols: [""],
+        items: [
+          { n: "Mostaza miel", p: [990] },
+          { n: "Cheddar Jack", p: [990] },
+          { n: "BBQ de la casa", p: [990] },
+          { n: "Salsa Jack", p: [990] },
+          { n: "Salsa Hot", p: [990] },
+          { n: "Salsa Big Jack", p: [1200] },
+        ],
+      },
+    ],
+  },
+];
+
+const ICONO_MENU = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>';
+
+const fmt = n => "$" + n.toLocaleString("es-CL");
+let local = null;
+
+function itemHTML(it, cols, i) {
+  const prices = (it.soloP && it.soloP[local]) || it.p;
+  let pr;
+  if (it.span) pr = `<span class="price solid span">${fmt(prices[0])}</span>`;
+  else pr = cols.map((_, k) => prices[k] == null
+      ? `<span class="price empty"></span>`
+      : `<span class="price">${fmt(prices[k])}</span>`).join("");
+  return `<div class="item" style="--i:${i}">
+    <div class="item-name">${it.img ? `<button class="thumb" data-zoom="${it.img}" data-cap="${it.n}" aria-label="Ver foto de ${it.n}"><img src="${it.img}" alt="" loading="lazy"></button>` : ""}<span>${it.n}${it.tag ? `<span class="tag">${it.tag}</span>` : ""}</span></div>${pr}
+    ${it.d ? `<div class="item-desc">${it.d}</div>` : ""}
+    ${it.chips ? `<div class="chips">${it.chips.map(c => `<span class="chip">${c}</span>`).join("")}</div>` : ""}
+  </div>`;
+}
+
+function favHTML(it, cols, i) {
+  const prices = it.span ? `<span>${fmt(it.p[0])}</span>`
+    : cols.map((c, k) => it.p[k] == null ? "" : `<span><small>${c}</small>${fmt(it.p[k])}</span>`).join("");
+  return `<article class="fav" style="--i:${i}">
+    <div class="fav-img"><img src="${it.img}" alt="${it.n}" loading="lazy" data-zoom="${it.img}" data-cap="${it.n}"></div>
+    ${it.badge ? `<span class="fav-badge">${it.badge}</span>` : ""}
+    <div class="fav-body"><div class="fav-name">${it.n}</div><div class="fav-desc">${it.d}</div><div class="fav-prices">${prices}</div></div>
+  </article>`;
+}
+
+function render() {
+  const menu = document.getElementById("menu");
+  menu.innerHTML = SECCIONES.map(s => {
+    const grupos = s.grupos.filter(g => !g.solo || g.solo === local).map(g0 => {
+      // oculta columnas que en este local no tienen ningún precio
+      const pr = it => (it.soloP && it.soloP[local]) || it.p;
+      const keep = g0.cols.map((_, k) => g0.items.some(it => it.span || pr(it)[k] != null));
+      const g = { ...g0, cols: g0.cols.filter((_, k) => keep[k]),
+        items: g0.items.map(it => it.span ? it : { ...it, soloP: null, p: pr(it).filter((_, k) => keep[k]) }) };
+      if (g.fotos) return `<div class="group">
+        <div class="group-name">${g.nombre}</div><div class="swipe-hint">${g.sub}</div>
+        <div class="favs">${g0.items.map((it, i) => favHTML(it, g0.cols, i)).join("")}</div>
+      </div>`;
+      const colsVar = g.cols.map(() => "4.4rem").join(" ");
+      return `<div class="group" style="--cols:${colsVar}">
+        <div class="group-head">
+          <div class="group-name">${g.nombre}${g.solo ? `<span class="tag only">Solo ${LOCALES[local].nombre}</span>` : ""}</div>
+          ${g.cols.map(c => `<div class="col-label">${c}</div>`).join("")}
+          ${g.sub ? `<div class="group-sub">${g.sub}</div>` : ""}
+        </div>
+        ${g.items.map((it, i) => itemHTML(it, g.cols, i)).join("")}
+        ${g.nota ? `<div class="note">${g.nota}</div>` : ""}
+      </div>`;
+    }).join("");
+    const dest = s.destacado ? `<div class="feature"><img src="${s.destacado.img}" alt="" loading="lazy"><div><q>${s.destacado.texto}</q><small>${s.destacado.sub}</small></div></div>` : "";
+    return `<section class="section ${s.tema}" id="s-${s.id}" data-id="${s.id}">
+      <div class="section-inner">
+        <div>
+          ${document.getElementById("emblem-" + s.id) ? `<div class="emblem">${document.getElementById("emblem-" + s.id).innerHTML}</div>` : ""}
+          ${grupos}${dest}
+        </div>
+        <div class="vtitle" aria-hidden="true">${s.titulo}</div>
+      </div>
+    </section>`;
+  }).join("");
+  const L = LOCALES[local];
+  document.querySelector(".contacto-local").innerHTML = `<b>Jack Star ${L.nombre}</b>${L.dir}<br><a href="tel:${L.tel}">${L.telTxt}</a>`;
+  observe();
+}
+
+/* aparición al hacer scroll */
+let io;
+function observe() {
+  io && io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add("in");
+  }), { threshold: 0, rootMargin: "0px 0px -15% 0px" });
+  document.querySelectorAll(".section").forEach(s => io.observe(s));
+}
+
+/* dock: sección actual */
+const dock = document.querySelector(".dock");
+dock.innerHTML = `<button class="dock-btn" aria-label="Ver secciones"><span class="dock-ico">${ICONO_MENU}</span><span class="dock-label"><span></span></span><span class="dock-count"></span></button>`;
+const sheetBg = Object.assign(document.createElement("div"), { className: "sheet-bg" });
+const sheet = Object.assign(document.createElement("div"), { className: "sheet" });
+sheet.setAttribute("role", "dialog"); sheet.setAttribute("aria-label", "Secciones de la carta");
+document.body.append(sheetBg, sheet);
+function abrirSheet(open) {
+  if (open) sheet.innerHTML = `<h2>Ir a la sección</h2><div class="sheet-grid">${SECCIONES.map((s, i) => {
+    const n = s.grupos.filter(g => !g.fotos && (!g.solo || g.solo === local)).reduce((a, g) => a + g.items.length, 0);
+    return `<button data-go="${s.id}" style="--i:${i}" class="${s.id === actual ? "on" : ""}"><b>${s.titulo}</b><small>${n} productos</small></button>`;
+  }).join("")}</div>`;
+  sheet.classList.toggle("open", open); sheetBg.classList.toggle("open", open);
+}
+dock.addEventListener("click", () => abrirSheet(true));
+sheetBg.addEventListener("click", () => abrirSheet(false));
+sheet.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (!b) return;
+  abrirSheet(false);
+  document.getElementById("s-" + b.dataset.go).scrollIntoView({ behavior: "smooth" });
+});
+let actual = null;
+function updateDock() {
+  const y = window.innerHeight * 0.4;
+  let cur = null;
+  document.querySelectorAll(".section").forEach(s => { if (s.getBoundingClientRect().top < y) cur = s.dataset.id; });
+  dock.classList.toggle("show", !!cur && !document.getElementById("menu").hidden);
+  if (cur && cur !== actual) {
+    actual = cur;
+    const i = SECCIONES.findIndex(s => s.id === cur);
+    dock.querySelector(".dock-label").innerHTML = `<span>${SECCIONES[i].titulo}</span>`;
+    dock.querySelector(".dock-count").textContent = `${i + 1}/${SECCIONES.length}`;
+  }
+}
+addEventListener("scroll", updateDock, { passive: true });
+
+/* visor de fotos */
+const lb = document.createElement("div");
+lb.className = "lightbox"; lb.innerHTML = "<figure><img alt=''><figcaption></figcaption></figure>";
+document.body.appendChild(lb);
+document.addEventListener("click", e => {
+  const z = e.target.closest("[data-zoom]");
+  if (z) { lb.querySelector("img").src = z.dataset.zoom; lb.querySelector("figcaption").textContent = z.dataset.cap; lb.classList.add("open"); }
+  else if (e.target.closest(".lightbox")) lb.classList.remove("open");
+});
+
+/* selector de local */
+function setLocal(l, { animate = true } = {}) {
+  if (l === local) return;
+  local = l;
+  const seg = document.querySelector(".seg");
+  seg.dataset.local = l;
+  seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.local === l));
+  history.replaceState(null, "", "#" + l);
+  const menu = document.getElementById("menu");
+  if (animate) {
+    menu.classList.remove("swap"); void menu.offsetWidth; menu.classList.add("swap");
+    setTimeout(() => { render(); document.querySelectorAll(".section").forEach(s => {
+      const r = s.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) s.classList.add("in"); }); }, 190);
+  } else render();
+}
+
+function abrirCarta(l) {
+  document.body.classList.remove("lock");
+  ["carta", "menu"].forEach(id => document.getElementById(id).hidden = false);
+  document.querySelector(".foot").hidden = false;
+  setLocal(l, { animate: false });
+  requestAnimationFrame(() => document.getElementById("carta").scrollIntoView({ behavior: "smooth" }));
+}
+
+document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => abrirCarta(b.dataset.pick)));
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => setLocal(b.dataset.local)));
+
+/* desbloquear scroll cuando termina la intro */
+setTimeout(() => document.body.classList.remove("lock"), 3000);
+const h = location.hash.slice(1);
+if (LOCALES[h]) {
+  ["carta","menu"].forEach(id => document.getElementById(id).hidden = false);
+  document.querySelector(".foot").hidden = false;
+  setLocal(h, { animate: false });
+  let tocado = false;
+  ["wheel", "touchstart", "keydown"].forEach(ev => addEventListener(ev, () => tocado = true, { once: true, passive: true }));
+  setTimeout(() => { document.body.classList.remove("lock"); if (!tocado && scrollY < 40) document.getElementById("carta").scrollIntoView({ behavior: "smooth" }); }, 2900);
+}
+</script>
+</body>
+</html>
