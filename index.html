@@ -23,6 +23,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { background: var(--black); color: var(--white); font-family: "DM Sans", sans-serif; font-weight: 300; overflow-x: hidden; }
+  html, body { overflow-x: clip; }
   body::before {
     content: "";
     position: fixed; inset: 0;
@@ -372,8 +373,8 @@
     .statement { padding: 3rem 1.5rem; }
     .insta-section { padding: 3rem 1.5rem; }
     .insta-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2.5rem 1.5rem; }
-    .footer-links { justify-content: center; }
+    footer { grid-template-columns: 1fr; justify-items: center; gap: 1.5rem; text-align: center; padding: 2.5rem 1.5rem; }
+    .footer-links { justify-content: center; flex-wrap: wrap; gap: 1rem 1.5rem; }
     .cta-section { padding: 6rem 1.5rem; }
     .divider { padding: 0 1.5rem; }
     .locales-intro { margin-bottom: 2.5rem; }
