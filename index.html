@@ -7,7 +7,7 @@
 <title>Jack Star — Hamburguesas de Culto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="photos/favicon.png" />
 <link rel="apple-touch-icon" href="photos/favicon.png" />
 <style>
@@ -588,6 +588,61 @@
   .ph-toast small { display: block; font-size: 2.8cqw; color: #555; line-height: 1.3; }
   .ph-fly { position: absolute; width: 22%; aspect-ratio: 1; object-fit: cover; border-radius: 18%; border: .6cqw solid #f6c745; box-shadow: 0 3cqw 5cqw rgba(0,0,0,.5); opacity: 0; visibility: hidden; }
 
+  .ph-seg {
+    position: absolute; left: 16.95%; top: 52.45%; width: 51.53%; height: 4.6%;
+    display: flex; align-items: center; padding: 0 .79cqw; border-radius: 999px; background: #282828;
+    font-family: "Montserrat", sans-serif; font-weight: 600; font-size: 3cqw;
+  }
+  .ph-seg-knob { position: absolute; left: .79cqw; top: 50%; width: 17.14cqw; height: 7.29cqw; translate: 0 -50%; border-radius: 999px; background: #f4c745; }
+  .ph-seg-opt { position: relative; text-align: center; color: #71716f; transition: color .25s; }
+  .ph-seg-opt:first-of-type { width: 17.14cqw; }
+  .ph-seg-opt:last-of-type { flex: 1; }
+  .ph-seg-opt.is-on { color: #111; }
+  .ph-addr { position: absolute; left: 17.04%; top: 68.45%; translate: 0 -50%; white-space: nowrap; font-family: "Montserrat", sans-serif; font-weight: 500; font-size: 2.3cqw; color: #999997; }
+  .ph-addr-delivery { opacity: 0; }
+
+  .ph-track {
+    position: absolute; left: 8.67%; right: 8.67%; bottom: 14%;
+    padding: 4.4cqw 4.8cqw 5cqw; border-radius: 5cqw 5cqw 0 0;
+    background: #faf6ef; color: #111; font-family: "Montserrat", sans-serif;
+    box-shadow: 0 -3cqw 8cqw rgba(0,0,0,.45); opacity: 0; visibility: hidden;
+  }
+  .trk-head { display: flex; justify-content: space-between; align-items: center; }
+  .trk-head strong { font-size: 3.9cqw; font-weight: 700; }
+  .trk-live { display: inline-flex; align-items: center; gap: 1.2cqw; padding: .9cqw 2.2cqw; border-radius: 999px; background: #c8000a; color: #fff; font-size: 2.3cqw; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .trk-live i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; background: #fff; animation: livePing 1.2s ease-in-out infinite; }
+  .trk-eta { margin-top: 1.6cqw; font-size: 3cqw; font-weight: 500; color: #555; }
+  .trk-eta b { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 7.5cqw; color: #111; vertical-align: -.6cqw; }
+  .trk-map {
+    position: relative; margin-top: 2.6cqw; height: 30cqw; border-radius: 3cqw; overflow: hidden;
+    background-color: #1a1a1a;
+    background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 6cqw 6cqw;
+  }
+  .trk-map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .trk-route { fill: none; stroke: rgba(244,199,69,.35); stroke-width: 3; stroke-dasharray: 6 6; }
+  .trk-done { fill: none; stroke: #f4c745; stroke-width: 4; stroke-linecap: round; }
+  .trk-store { fill: #c8000a; stroke: #fff; stroke-width: 2; }
+  .trk-home { fill: #fff; stroke: #f4c745; stroke-width: 3; }
+  .trk-moto circle { fill: #f4c745; }
+  .trk-moto .trk-moto-ring { fill: rgba(244,199,69,.3); }
+  .trk-tag { position: absolute; font-size: 2.2cqw; font-weight: 600; color: rgba(255,255,255,.75); }
+  .trk-tag-a { left: 3cqw; bottom: 2.4cqw; }
+  .trk-tag-b { right: 3cqw; top: 2.2cqw; }
+  .trk-steps { position: relative; margin-top: 3.4cqw; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; }
+  .trk-bar { position: absolute; left: 12.5%; right: 12.5%; top: 1.1cqw; height: .6cqw; border-radius: 999px; background: #e3ddd2; }
+  .trk-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: #c8000a; }
+  .trk-step { position: relative; padding-top: 4cqw; font-size: 2.3cqw; font-weight: 600; color: #a9a39a; transition: color .3s; }
+  .trk-step::before {
+    content: ""; position: absolute; top: 0; left: 50%; width: 2.8cqw; height: 2.8cqw; translate: -50% 0; border-radius: 50%;
+    background: #e3ddd2; transition: background .3s, box-shadow .3s;
+  }
+  .trk-step.is-on { color: #111; }
+  .trk-step.is-on::before { background: #c8000a; box-shadow: 0 0 0 1.2cqw rgba(200,0,10,.18); }
+  .online-chip i.live { background: var(--red); animation: liveDot 1.2s ease-in-out infinite; }
+  @keyframes livePing { 50% { opacity: .3; } }
+  @keyframes liveDot { 50% { box-shadow: 0 0 0 6px rgba(200,0,10,0); opacity: .5; } }
+
   .online-chip {
     position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: .5rem;
     padding: .6rem 1rem; border-radius: 999px; white-space: nowrap;
@@ -599,7 +654,7 @@
   .online-chip b { color: var(--gold); font-weight: 500; }
   .online-chip i { width: 8px; height: 8px; border-radius: 50%; background: #2ecc71; box-shadow: 0 0 0 0 rgba(46,204,113,.6); animation: dotPing 1.8s infinite; }
   .chip-a { top: 9%; left: 2%; }
-  .chip-b { top: 46%; right: 0; animation-delay: -1.6s; }
+  .chip-b { top: 30%; right: 0; animation-delay: -1.6s; }
   .chip-c { bottom: 9%; left: 6%; animation-delay: -3.2s; }
   @keyframes chipFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
   @keyframes dotPing { 70% { box-shadow: 0 0 0 8px rgba(46,204,113,0); } 100% { box-shadow: 0 0 0 0 rgba(46,204,113,0); } }
@@ -619,7 +674,7 @@
     .online-cuenta { position: static; margin-top: .6rem; text-align: center; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .btn-online, .online-nuevo::after, .online-ring, .online-chip, .online-chip i { animation: none !important; }
+    .btn-online, .online-nuevo::after, .online-ring, .online-chip, .online-chip i, .trk-live i { animation: none !important; }
   }
 </style>
 </head>
@@ -673,12 +728,12 @@
 <section id="pedir" class="online-section">
   <div class="online-copy">
     <div class="section-label">Nuevo · Pedidos online</div>
-    <h2 class="online-title">Pides en<br>un minuto.<br><span class="red">Retiras en 20.</span></h2>
-    <p class="online-sub">Elige tu local, arma tu pedido y pásalo a buscar. Sin llamadas y sin esperar respuesta por WhatsApp.</p>
+    <h2 class="online-title">Pides en<br>un minuto.<br><span class="red">Lo sigues en vivo.</span></h2>
+    <p class="online-sub">Delivery a tu casa o retiro en el local. Arma tu pedido y mira cómo avanza, desde la cocina hasta tu puerta. Sin llamadas y sin esperar respuesta por WhatsApp.</p>
     <ol class="online-steps">
-      <li class="online-step is-active"><span class="online-step-num">01</span><div><strong>Elige tu local</strong><span>Quillota o La Calera, retiro en el local.</span></div></li>
+      <li class="online-step is-active"><span class="online-step-num">01</span><div><strong>Delivery o retiro</strong><span>Te lo llevamos o lo pasas a buscar a Quillota o La Calera.</span></div></li>
       <li class="online-step"><span class="online-step-num">02</span><div><strong>Arma tu pedido</strong><span>Toda la carta, con tus agregados.</span></div></li>
-      <li class="online-step"><span class="online-step-num">03</span><div><strong>Confirma y retira</strong><span>Llegas, dices tu código y te lo llevas.</span></div></li>
+      <li class="online-step"><span class="online-step-num">03</span><div><strong>Síguelo en vivo</strong><span>Ves cuando entra a cocina, cuando sale y cuando llega.</span></div></li>
     </ol>
     <div class="online-wrap online-wrap-cta">
       <a href="https://pedidos.jackstar.cl" target="_blank" rel="noopener" class="btn-primary btn-online js-online is-locked" aria-disabled="true">
@@ -702,15 +757,37 @@
         <span class="ph-price">$17.400</span>
         <span class="ph-bar-hl"></span>
         <span class="ph-tap"></span>
-        <div class="ph-toast"><b>✓</b><div><strong>Pedido C-4 recibido</strong><small>Listo para retiro en 20 min</small></div></div>
+        <div class="ph-seg"><span class="ph-seg-knob"></span><span class="ph-seg-opt is-on">Retiro</span><span class="ph-seg-opt">Delivery</span></div>
+        <span class="ph-addr ph-addr-retiro">Caupolicán 984, La Calera · retiro en 20 min aprox.</span>
+        <span class="ph-addr ph-addr-delivery">Delivery a tu dirección · llega en 35 min aprox.</span>
+        <div class="ph-toast"><b>✓</b><div><strong>Pedido C-4 recibido</strong><small>Síguelo en vivo desde aquí</small></div></div>
+        <div class="ph-track">
+          <div class="trk-head"><strong>Pedido C-4</strong><span class="trk-live"><i></i>En vivo</span></div>
+          <div class="trk-eta">Llega en <b class="trk-min">35</b> min</div>
+          <div class="trk-map">
+            <svg viewBox="0 0 300 123">
+              <path class="trk-route" d="M26 98 C 84 104, 88 34, 148 50 S 238 106, 274 26" />
+              <path class="trk-done" d="M26 98 C 84 104, 88 34, 148 50 S 238 106, 274 26" />
+              <circle class="trk-store" cx="26" cy="98" r="8" />
+              <circle class="trk-home" cx="274" cy="26" r="8" />
+              <g class="trk-moto"><circle class="trk-moto-ring" r="12" /><circle r="7" /></g>
+            </svg>
+            <span class="trk-tag trk-tag-a">Jack Star</span>
+            <span class="trk-tag trk-tag-b">Tu casa</span>
+          </div>
+          <div class="trk-steps">
+            <div class="trk-bar"><span class="trk-fill"></span></div>
+            <span class="trk-step">Recibido</span><span class="trk-step">En cocina</span><span class="trk-step">En camino</span><span class="trk-step">Entregado</span>
+          </div>
+        </div>
         <img class="ph-fly" src="photos/burger-1-la-mas-pedida.jpg" alt="" />
         <img class="ph-fly" src="photos/burger-2-imprescindible.jpg" alt="" />
         <img class="ph-fly" src="photos/burger-3-favorita-del-local.jpg" alt="" />
       </div>
     </div>
     <div class="online-chip chip-a" aria-hidden="true"><i></i>Abierto hoy · 13:00 a 23:00</div>
-    <div class="online-chip chip-b" aria-hidden="true">Retiro en <b>20 min</b></div>
-    <div class="online-chip chip-c" aria-hidden="true">Delivery · <b>muy pronto</b></div>
+    <div class="online-chip chip-b" aria-hidden="true">Delivery <b>o</b> retiro</div>
+    <div class="online-chip chip-c" aria-hidden="true"><i class="live"></i>Seguimiento <b>en vivo</b></div>
   </div>
 </section>
 
@@ -1162,14 +1239,42 @@
       .to(tap, { scale: 1.7, opacity: 0, duration: .6, ease: "power2.out" });
     const salidas = [{ l: -38, t: 42, r: -25 }, { l: 128, t: 34, r: 20 }, { l: -34, t: 64, r: -15 }];
 
-    const tl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: .5 });
-    tl.call(() => { estado.n = 0; estado.p = 0; pintar(); paso(0)(); }, null, 0)
+    const knob = q(".ph-seg-knob")[0], opts = q(".ph-seg-opt"), addrR = q(".ph-addr-retiro")[0], addrD = q(".ph-addr-delivery")[0];
+    const track = q(".ph-track")[0], fill = q(".trk-fill")[0], trkPasos = q(".trk-step"), eta = q(".trk-eta")[0];
+    const ruta = q(".trk-done")[0], moto = q(".trk-moto")[0], largo = ruta.getTotalLength();
+    const viaje = { t: 0 };
+    const mover = () => {
+      const pt = ruta.getPointAtLength(viaje.t * largo);
+      moto.setAttribute("transform", `translate(${pt.x} ${pt.y})`);
+      ruta.style.strokeDashoffset = largo * (1 - viaje.t);
+    };
+    ruta.style.strokeDasharray = largo;
+    const minutos = { m: 35 };
+    const pintarEta = () => { eta.innerHTML = `Llega en <b class="trk-min">${Math.round(minutos.m)}</b> min`; };
+    const trkPaso = i => () => trkPasos.forEach((el, j) => el.classList.toggle("is-on", j <= i));
+    const modo = delivery => () => {
+      opts[0].classList.toggle("is-on", !delivery); opts[1].classList.toggle("is-on", delivery);
+    };
+
+    const tl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: .4 });
+    tl.call(() => {
+        estado.n = 0; estado.p = 0; pintar(); paso(0)(); modo(false)();
+        viaje.t = 0; mover(); minutos.m = 35; pintarEta(); trkPaso(-1)();
+      }, null, 0)
       .set(badge, { scale: 0 }, 0)
       .set(toast, { opacity: 0, y: -24, scale: .96 }, 0)
       .set(flies, { autoAlpha: 0 }, 0)
-      .add(toque(26.3, 54.75), .35)
-      .fromTo(chips[1], { scale: 1 }, { scale: 1.08, duration: .2, yoyo: true, repeat: 1 }, .5)
-      .add(toque(29.5, 59.75), 1.15)
+      .set(knob, { left: ".79cqw", width: "17.14cqw" }, 0)
+      .set(addrR, { opacity: 1 }, 0).set(addrD, { opacity: 0 }, 0)
+      .set(track, { autoAlpha: 0, yPercent: 100 }, 0)
+      .set(fill, { width: "0%" }, 0)
+      .add(toque(51, 54.75), .35)
+      .fromTo(knob, { left: ".79cqw", width: "17.14cqw" }, { left: "18.6cqw", width: "31.9cqw", duration: .5, ease: "power3.inOut" }, .45)
+      .call(modo(true), null, .6)
+      .to(addrR, { opacity: 0, duration: .25 }, .6)
+      .fromTo(addrD, { opacity: 0, x: 8 }, { opacity: 1, x: 0, duration: .35 }, .75)
+      .fromTo(chips[1], { scale: 1 }, { scale: 1.08, duration: .2, yoyo: true, repeat: 1 }, .6)
+      .add(toque(29.5, 59.75), 1.3)
       .call(paso(1), null, 1.9);
 
     flies.forEach((f, k) => {
@@ -1188,8 +1293,22 @@
     tl.call(paso(2), null, 5.2)
       .add(toque(49.3, 81.4), 5.5)
       .fromTo(barHl, { opacity: 0 }, { opacity: 1, duration: .2, yoyo: true, repeat: 1 }, 5.5)
-      .to(toast, { opacity: 1, y: 0, scale: 1, duration: .55, ease: "back.out(1.8)" }, 6)
-      .to(toast, { opacity: 0, y: -16, duration: .35, ease: "power2.in" }, 8.6);
+      .to(toast, { opacity: 1, y: 0, scale: 1, duration: .55, ease: "back.out(1.8)" }, 5.9)
+      .to(toast, { opacity: 0, y: -16, duration: .3, ease: "power2.in" }, 7.1)
+      // Seguimiento en vivo: la hoja sube y el pedido avanza hasta la puerta
+      .to(track, { autoAlpha: 1, yPercent: 0, duration: .65, ease: "back.out(1.1)" }, 7.2)
+      .call(trkPaso(0), null, 7.8)
+      .to(fill, { width: "33.3%", duration: .5, ease: "power2.inOut" }, 8.4)
+      .call(trkPaso(1), null, 8.8)
+      .to(minutos, { m: 24, duration: 1, ease: "none", onUpdate: pintarEta }, 8.4)
+      .to(fill, { width: "66.6%", duration: .5, ease: "power2.inOut" }, 9.5)
+      .call(trkPaso(2), null, 9.9)
+      .to(viaje, { t: 1, duration: 2.6, ease: "power1.inOut", onUpdate: mover }, 9.9)
+      .to(minutos, { m: 1, duration: 2.6, ease: "none", onUpdate: pintarEta }, 9.9)
+      .to(fill, { width: "100%", duration: .4, ease: "power2.inOut" }, 12.5)
+      .call(() => { trkPaso(3)(); eta.innerHTML = "<b>¡Llegó!</b> Buen provecho"; }, null, 12.8)
+      .fromTo(q(".trk-moto-ring")[0], { attr: { r: 12 } }, { attr: { r: 24 }, duration: .3, yoyo: true, repeat: 1 }, 12.8)
+      .to(track, { autoAlpha: 0, yPercent: 100, duration: .45, ease: "power2.in" }, 14.4);
 
     ScrollTrigger.create({ trigger: sec, start: "top 70%", end: "bottom 25%", onToggle: self => self.isActive ? tl.play() : tl.pause() });
   })();
